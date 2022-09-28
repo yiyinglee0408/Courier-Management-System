@@ -11,18 +11,62 @@
 			 <!--<input id="street_number" disabled="true" placeholder="Street address">-->
 			 <input type = "text" id = "address2" name = "address2" placeholder = "Apartment, unit, suite, or floor(Optional)">		 
 			 <!--<input class="form-control" id="route" disabled="true" placeholder="Route">-->
-			 <input type = "text" id = "city" name = "city" placeholder="City">
-			 <input type = "text" id = "state" name = "state" placeholder="State">
+			 <input type = "text" id = "locality" name = "locality" placeholder="City">
+			 <input type = "text" id = "administrative_area_level_1" name = "administrative_area_level_1" placeholder="State">
 			 <input type = "text" id = "postal_code" name = "postal_code" placeholder="ZIP Code">
 			 <input type = "text" id = "country" name = "country" placeholder="Country">
+			 <button type = "button" id = "addressButton" name = "addressButton">Submit</button>
 		</form>	
 	</body>
 	
+	<script type="module">
+	  // Import the functions you need from the SDKs you need
+	  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js";
+	  import { getDatabase, set, ref, update } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-database.js";
+	  // TODO: Add SDKs for Firebase products that you want to use
+	  // https://firebase.google.com/docs/web/setup#available-libraries
+
+	  // Your web app's Firebase configuration
+	  const firebaseConfig = {
+		apiKey: "AIzaSyBgBlBb_-KCvANhu66fq7zzARGoPqxyYnk",
+		authDomain: "address-3d36e.firebaseapp.com",
+		databaseURL: "https://address-3d36e-default-rtdb.firebaseio.com",
+		projectId: "address-3d36e",
+		storageBucket: "address-3d36e.appspot.com",
+		messagingSenderId: "276390177455",
+		appId: "1:276390177455:web:00227a31c86c943cdbc25a"
+	  };
+
+	  // Initialize Firebase
+	  const app = initializeApp(firebaseConfig);
+	  const database = getDatabase(app);
+	  
+	  addressButton.addEventListener('click',(e)=> {
+		  var autocomplete = document.getElementById('autocomplete').value;
+		  var address2 = document.getElementById('address2').value;
+		  var locality = document.getElementById('locality').value;
+		  var administrative_area_level_1 = document.getElementById('administrative_area_level_1').value;
+		  var postal_code = document.getElementById('postal_code').value;
+		  var country = document.getElementById('country').value;
+		  
+		  set(ref(database, 'AutocompleteAddress/' + '/CompleteAddress'),{
+			address : autocomplete,
+			address2 : address2,		
+			locality : locality,
+			state : administrative_area_level_1,
+			postal_code : postal_code,
+			country : country
+		 })
+		 
+		 alert('You have been enter successfully!');
+	  });
+	</script>
+	
 	<script>  
-	  var placeSearch, autocomplete;
+		var placeSearch, autocomplete;
 		var componentForm = {
-		  city: 'long_name',
-		  state: 'short_name',
+		  locality: 'long_name',
+		  administrative_area_level_1: 'short_name',
 		  country: 'long_name',
 		  postal_code: 'short_name'
 		};
@@ -87,5 +131,5 @@
 		  }
 		}
 	</script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjVrS6uoHAuYvY_T-s3IAfRkaKTdP0hsY&libraries=places&&callback=initAutocomplete" async defer></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmGUA_BLfucAv8MUM5xfpyg_N0bPhH6jw&libraries=places&&callback=initAutocomplete" async defer></script>
 </html>
