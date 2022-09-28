@@ -13,7 +13,7 @@
 			 <!--<input class="form-control" id="route" disabled="true" placeholder="Route">-->
 			 <input type = "text" id = "locality" name = "locality" placeholder="City">
 			 <input type = "text" id = "administrative_area_level_1" name = "administrative_area_level_1" placeholder="State">
-			 <input type = "text" id = "postal_code" name = "postal_code" placeholder="ZIP Code">
+			 <input type = "text" id = "postal_code" name = "postal_code" placeholder="ZIP Code / Postal Code">
 			 <input type = "text" id = "country" name = "country" placeholder="Country">
 			 <button type = "button" id = "addressButton" name = "addressButton">Submit</button>
 		</form>	
