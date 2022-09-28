@@ -8,12 +8,12 @@
 	<body>
 		<form method = "POST" action = "address1.php">
 			 <input id="autocomplete" placeholder="Address" onFocus="geolocate()" type="text" class="form-control">
-			 <input class="form-control" id="street_number" disabled="true" placeholder="Street address">
-			 <input class="form-control" id="route" disabled="true" placeholder="Route">
-			 <input class="form-control field" id="locality" disabled="true" placeholder="City">
-			 <input class="form-control" id="administrative_area_level_1" disabled="true" placeholder="State">
-			 <input class="form-control" id="postal_code" disabled="true" placeholder="ZIP Code">
-			 <input class="form-control" id="country" disabled="true" placeholder="Country">
+			 <input id="street_number" disabled="true" placeholder="Street address">
+			 <input id="route" disabled="true" placeholder="Route">
+			 <input id="locality" disabled="true" placeholder="City">
+			 <input id="administrative_area_level_1" disabled="true" placeholder="State">
+			 <input id="postal_code" disabled="true" placeholder="ZIP Code">
+			 <input id="country" disabled="true" placeholder="Country">
 		</form>
 	</body>
 	
