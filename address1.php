@@ -7,25 +7,25 @@
 	
 	<body>
 		<form method = "POST" action = "address1.php">
-			 <input id="autocomplete" placeholder="Address" onFocus="geolocate()" type="text" class="form-control">
-			 <input id="street_number" disabled="true" placeholder="Street address">
-			 <input id="route" disabled="true" placeholder="Route">
-			 <input id="locality" disabled="true" placeholder="City">
-			 <input id="administrative_area_level_1" disabled="true" placeholder="State">
-			 <input id="postal_code" disabled="true" placeholder="ZIP Code">
-			 <input id="country" disabled="true" placeholder="Country">
+			 <input type = "text" id = "autocomplete" name = "autocomplete" placeholder = "Please enter your address..." onFocus = "geolocate()">
+			 <input type = "text" id = "streetNumber" name = "streetNumber" placeholder="Street address">
+			 <input type = "text" id = "route" name = "route" placeholder="Route">
+			 <input type = "text" id = "city" name = "city" placeholder="City">
+			 <input type = "text" id = "state" name = "state" placeholder = "State">
+			 <input type = "text" id = "postalCode" name = "postalCode" placeholder = "ZIP Code">
+			 <input type = "text" id = "country" name = "country" placeholder="Country">
 		</form>
 	</body>
 	
 	<script>
 		var placeSearch, autocomplete;
 		var componentForm = {
-		  street_number: 'short_name',
+		  streetNumber: 'short_name',
 		  route: 'long_name',
-		  locality: 'long_name',
-		  administrative_area_level_1: 'short_name',
+		  city: 'long_name',
+		  state: 'short_name',
 		  country: 'long_name',
-		  postal_code: 'short_name'
+		  postalCode: 'short_name'
 		};
 
 		function initAutocomplete() 
