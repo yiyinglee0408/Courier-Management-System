@@ -20,13 +20,25 @@
 			.container
 			{
 				display:flex;
-				height:1100px;
+				height:970px;
 				width:1350px;
 				margin:auto;
 				margin-top: 75px;
+				margin-bottom:50px;
+				border-style: solid;
+				border-color: #E9ECEF;
+			}
+			
+			.container1
+			{
+				
+				height:500px;
+				width:1350px;
+				margin:auto;
+				margin-top: 20px;
 				margin-bottom:75px;
 				border-style: solid;
-				border-color: red;
+				border-color: #E9ECEF;
 			}
 			
 			.form
@@ -34,6 +46,15 @@
 				display:flex;
 				flex-direction:column;
 				width: 50%;
+				background-color:white;
+				padding-left:50px;
+				padding-top:30px;
+			}
+			
+			.form1
+			{
+				display:flex;
+				flex-direction:column;
 				background-color:white;
 				padding-left:50px;
 				padding-top:30px;
@@ -47,6 +68,11 @@
 				background-color:white;
 				padding-right:30px;
 				padding-top:30px;
+			}
+			
+			input[type=checkbox]
+			{
+				margin-left:70px;
 			}
 			
 			input[type=text],input[type=tel]
@@ -111,9 +137,9 @@
 	
 		<div class = "container">
 			
-			<form method = "POST" action = "user_delivery_details.php" class = "form">
+			<form method = "POST" action = "user_delivery_details.php" class = "form" id = "senderAddress">
 			
-				<h3>Sender Address</h3><br/>
+				<h3>Sender Details</h3><br/>
 				
 				<label for = "fullName">Full Name</label>
 				<input type = "text" id = "fullName" name = "fullName" placeholder = "Full Name" value= "<?php echo $row["fullName"]; ?>"/><br/>
@@ -148,10 +174,10 @@
 			
 				<form method = "POST" action = "user_delivery_details.php">
 				
-					<h3>Receiver Address</h3><br/>
+					<h3>Receiver Details</h3><br/>
 					
 					<label for = "receiverFullName">Full Name</label>
-					<input type = "text" id = "receiverFullName" name = "receiverFullNamee" placeholder = "Full Name" value= "<?php if(isset($_POST["fullName"])) echo $_POST["fullName"]; ?>"/><br/><br/>
+					<input type = "text" id = "receiverFullName" name = "receiverFullName" placeholder = "Full Name" value= "<?php if(isset($_POST["fullName"])) echo $_POST["fullName"]; ?>"/><br/><br/>
 					
 					<label for = "receiverEmail">Email</label>
 					<input type = "text" id = "receiverEmail" name = "receiverEmail" placeholder = "Email" pattern = "[a-zA-Z0-9]+@(gmail|yahoo|outlook)\.com" value= "<?php if(isset($_POST["email"])) echo $_POST["email"]; ?>"/><br/><br/>
@@ -176,18 +202,51 @@
 					
 					<label for = "receiverCountry">Country</label>
 					<input type = "text" id = "receiverCountry" name = "country" placeholder="Country" value= "<?php if(isset($_POST["country"])) echo $_POST["country"]; ?>"><br/><br/>
-				
+			  
 				</form>
-				
-				<input type="submit" name="submit" value="SUBMIT">
-				<input type="hidden" name="submitted" value="true"/>
 				
 			</div>
 		
 		</div>
+		
+		<input type = "checkbox" id = "addReceiverDetails" name = "addReceiverDetails" value = "Additional Receiver Details" onclick = "addReceiverDetails">
+		<label for = "addReceiverDetails">Do you want to add additional receiver details?</label>
+		
+		<div class = "container1">
+		
+			<form method = "POST" action = "user_delivery_details.php" class = "form1" id = "additional">
+			
+				<h3>Additional Receiver Details</h3><br/>
+				
+				<label for = "addReceiverFullName">Full Name</label>
+				<input type = "text" id = "addReceiverFullName" name = "addReceiverFullName" placeholder = "Full Name" disabled="true" value= "<?php if(isset($_POST["fullName"])) echo $_POST["fullName"]; ?>"/><br/><br/>
+				
+				<label for = "addReceiverEmail">Email</label>
+				<input type = "text" id = "addReceiverEmail" name = "addReceiverEmail" placeholder = "Email" pattern = "[a-zA-Z0-9]+@(gmail|yahoo|outlook)\.com" disabled="true" value= "<?php if(isset($_POST["email"])) echo $_POST["email"]; ?>"/><br/><br/>
+				
+				<label for = "addReceiverContactNumber">Contact Number</label>
+				<input type = "tel" id = "addReceiverContactNumber" name = "addReceiverContactNumber" placeholder = "Contact Number" pattern = "[0-9]{3}-[0-9]{7,8}" disabled="true" value= "<?php if(isset($_POST["contactNumber"])) echo $_POST["contactNumber"]; ?>"/><br/><br/>
+			</form>
+			
+		</div>
 	
-	</body>
+	</body>  
 	
+	<script>
+		//var componentForm = {
+			//addReceiverFullName: 'addReceiverFullName',
+			//addReceiverEmail: 'addReceiverEmail',
+			//addReceiverContactNumber: 'addReceiverContactNumber'
+		//}
+		function addReceiverDetails()
+		{
+			
+			document.getElementById(addReceiverFullName).disabled = false;
+			https://stackoverflow.com/questions/31559034/disable-input-if-checkbox-checked
+		}
+	
+	</script>
+		
 	<!--Sender address autocomplete-->
 	<script>  
 		var placeSearch, autocomplete;
