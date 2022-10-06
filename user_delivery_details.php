@@ -3,6 +3,84 @@
 	<head>
 		<title>User Delivery Details Page</title>
 		<meta charset = "utf-8">
+		
+		<style>
+			*
+			{
+				margin:0;
+				padding:0;
+				box-sizing:border-box;
+			}
+			
+			body
+			{
+				background-color:#F4F7F9;
+			}
+			
+			.container
+			{
+				display:flex;
+				height:1100px;
+				width:1350px;
+				margin:auto;
+				margin-top: 75px;
+				margin-bottom:75px;
+				border-style: solid;
+				border-color: red;
+			}
+			
+			.form
+			{
+				display:flex;
+				flex-direction:column;
+				width: 50%;
+				background-color:white;
+				padding-left:50px;
+				padding-top:30px;
+			}
+			
+			.receiver_details
+			{
+				display:flex;
+				flex-direction:column;
+				width: 50%;
+				background-color:white;
+				padding-right:30px;
+				padding-top:30px;
+			}
+			
+			input[type=text],input[type=tel]
+			{
+				width:95%;
+				border:none;
+				border-bottom:2px solid black;
+				padding:12px 20px;
+				margin: 8px 0;
+				box-sizing:border-box;
+			}
+			
+			input[type=submit]
+			{
+				display:inline-block;
+				width:70%;
+				text-transform:uppercase;
+				background-color:#2874A6;
+				color:white;
+				font-weight:600;
+				border:none;
+				padding:1rem;
+				border-radius:8px;
+				font-size:15px;
+				letter-spacing:0.5px;
+				margin-bottom:20px;
+			}
+			
+			input[type=submit]:hover
+			{
+				background-color:#5499C7;
+			}
+				
+		</style>
 	</head>
 	
 	<?php
@@ -32,57 +110,79 @@
 	<body>
 	
 		<div class = "container">
-		
-			<p>Sender Address</p>
 			
-			<form method = "POST" action = "user_delivery_details.php">
+			<form method = "POST" action = "user_delivery_details.php" class = "form">
+			
+				<h3>Sender Address</h3><br/>
 				
-				<input type = "text" id = "fullName" name = "fullName" placeholder = "Full Name" value= "<?php echo $row["fullName"]; ?>"/>
+				<label for = "fullName">Full Name</label>
+				<input type = "text" id = "fullName" name = "fullName" placeholder = "Full Name" value= "<?php echo $row["fullName"]; ?>"/><br/>
 				
-				<input type = "text" id = "email" name = "email" placeholder = "Email" pattern = "[a-zA-Z0-9]+@(gmail|yahoo|outlook)\.com" value= "<?php echo $row["email"]; ?>"/>
+				<label for = "email">Email</label>
+				<input type = "text" id = "email" name = "email" placeholder = "Email" pattern = "[a-zA-Z0-9]+@(gmail|yahoo|outlook)\.com" value= "<?php echo $row["email"]; ?>"/><br/>
 				
-				<input type = "tel" id = "contactNumber" name = "contactNumber" placeholder = "Contact Number" pattern = "[0-9]{3}-[0-9]{7,8}" value= "<?php echo $row["contactNumber"]; ?>"/>
+				<label for = "contactNumber">Contact Number</label>
+				<input type = "tel" id = "contactNumber" name = "contactNumber" placeholder = "Contact Number" pattern = "[0-9]{3}-[0-9]{7,8}" value= "<?php echo $row["contactNumber"]; ?>"/><br/>
 				
-				<input type = "text" id = "autocomplete" name = "autocomplete" onFocus = "geolocate()" placeholder = "Please Enter Address Here..." value= "<?php echo $row["autocomplete"]; ?>"/>
-				<!--<input id="street_number" disabled="true" placeholder="Street address">-->
-				<input type = "text" id = "apartmentUnit" name = "apartmentUnit" placeholder = "Apartment, Unit, Suite, or Floor(Optional)" value= "<?php echo $row["apartmentUnit"]; ?>">		 
-				<!--<input class="form-control" id="route" disabled="true" placeholder="Route">-->
-				<input type = "text" id = "locality" name = "locality" placeholder="City" value= "<?php echo $row["locality"]; ?>">
+				<label for = "autocomplete">Address</label>
+				<input type = "text" id = "autocomplete" name = "autocomplete" onFocus = "geolocate()" placeholder = "Please Enter Address Here..." value= "<?php echo $row["autocomplete"]; ?>"/><br/>
 				
-				<input type = "text" id = "administrative_area_level_1" name = "administrative_area_level_1" placeholder="State" value= "<?php echo $row["administrative_area_level_1"]; ?>">
+				<label for = "apartmentUnit">Apartment, Unit, Suite, or Floor(Optional)</label>
+				<input type = "text" id = "apartmentUnit" name = "apartmentUnit" placeholder = "Apartment, Unit, Suite, or Floor(Optional)" value= "<?php echo $row["apartmentUnit"]; ?>"><br/>	 
 				
-				<input type = "text" id = "postal_code" name = "postal_code" placeholder="ZIP Code / Postal Code" value= "<?php echo $row["postal_code"]; ?>">
+				<label for = "locality">City</label>
+				<input type = "text" id = "locality" name = "locality" placeholder="City" value= "<?php echo $row["locality"]; ?>"><br/>
 				
-				<input type = "text" id = "country" name = "country" placeholder="Country" value= "<?php echo $row["country"]; ?>">
+				<label for = "administrative_area_level_1">State</label>
+				<input type = "text" id = "administrative_area_level_1" name = "administrative_area_level_1" placeholder="State" value= "<?php echo $row["administrative_area_level_1"]; ?>"><br/>
+				
+				<label for = "postal_code">ZIP Code / Postal Code</label>
+				<input type = "text" id = "postal_code" name = "postal_code" placeholder="ZIP Code / Postal Code" value= "<?php echo $row["postal_code"]; ?>"><br/>
+				
+				<label for = "country">Country</label>
+				<input type = "text" id = "country" name = "country" placeholder="Country" value= "<?php echo $row["country"]; ?>"><br/>
 				
 			</form>
 			
-			<form method = "POST" action = "user_delivery_details.php">
+			<div class = "receiver_details">
 			
-				<p>Receiver Address</p>
+				<form method = "POST" action = "user_delivery_details.php">
 				
-				<input type = "text" id = "receiverFullName" name = "receiverFullNamee" placeholder = "Full Name" value= "<?php if(isset($_POST["fullName"])) echo $_POST["fullName"]; ?>"/>
+					<h3>Receiver Address</h3><br/>
+					
+					<label for = "receiverFullName">Full Name</label>
+					<input type = "text" id = "receiverFullName" name = "receiverFullNamee" placeholder = "Full Name" value= "<?php if(isset($_POST["fullName"])) echo $_POST["fullName"]; ?>"/><br/><br/>
+					
+					<label for = "receiverEmail">Email</label>
+					<input type = "text" id = "receiverEmail" name = "receiverEmail" placeholder = "Email" pattern = "[a-zA-Z0-9]+@(gmail|yahoo|outlook)\.com" value= "<?php if(isset($_POST["email"])) echo $_POST["email"]; ?>"/><br/><br/>
+					
+					<label for = "receiverContactNumber">Contact Number</label>
+					<input type = "tel" id = "receiverContactNumber" name = "receiverContactNumber" placeholder = "Contact Number" pattern = "[0-9]{3}-[0-9]{7,8}" value= "<?php if(isset($_POST["contactNumber"])) echo $_POST["contactNumber"]; ?>"/><br/><br/>
+					
+					<label for = "receiverAddress">Address</label>
+					<input type = "text" id = "receiverAddress" name = "receiverAddress" placeholder = "Please Enter Address Here..." value= "<?php if(isset($_POST["autocomplete"])) echo $_POST["autocomplete"]; ?>"/><br/><br/>
+					
+					<label for = "receiverApartmentUnit">Apartment, Unit, Suite, or Floor(Optional)</label>
+					<input type = "text" id = "receiverApartmentUnit" name = "receiverApartmentUnit" placeholder = "Apartment, Unit, Suite, or Floor(Optional)" value= "<?php if(isset($_POST["apartmentUnit"])) echo $_POST["apartmentUnit"]; ?>"/><br/><br/>	 
+					
+					<label for = "receiverCity">City</label><br/>
+					<input type = "text" id = "receiverCity" name = "receiverCity" placeholder="City" value= "<?php if(isset($_POST["receiverCity"])) echo $_POST["receiverCity"]; ?>"><br/><br/>
+					
+					<label for = "receiverState">State</label>
+					<input type = "text" id = "receiverState" name = "receiverState" placeholder="State" value= "<?php if(isset($_POST["administrative_area_level_1"])) echo $_POST["administrative_area_level_1"]; ?>"><br/><br/>
+					
+					<label for = "receiverPostalCode">ZIP Code / Postal Code</label>
+					<input type = "text" id = "receiverPostalCode" name = "receiverPostalCode" placeholder="ZIP Code / Postal Code" value= "<?php if(isset($_POST["postal_code"])) echo $_POST["postal_code"]; ?>"><br/><br/>
+					
+					<label for = "receiverCountry">Country</label>
+					<input type = "text" id = "receiverCountry" name = "country" placeholder="Country" value= "<?php if(isset($_POST["country"])) echo $_POST["country"]; ?>"><br/><br/>
 				
-				<input type = "text" id = "receiverEmail" name = "receiverEmail" placeholder = "Email" pattern = "[a-zA-Z0-9]+@(gmail|yahoo|outlook)\.com" value= "<?php if(isset($_POST["email"])) echo $_POST["email"]; ?>"/>
-				
-				<input type = "tel" id = "receiverContactNumber" name = "receiverContactNumber" placeholder = "Contact Number" pattern = "[0-9]{3}-[0-9]{7,8}" value= "<?php if(isset($_POST["contactNumber"])) echo $_POST["contactNumber"]; ?>"/>
-				
-				<input type = "text" id = "receiverAddress" name = "receiverAddress" placeholder = "Please Enter Address Here..." value= "<?php if(isset($_POST["autocomplete"])) echo $_POST["autocomplete"]; ?>"/>
-				<!--<input id="street_number" disabled="true" placeholder="Street address">-->
-				<input type = "text" id = "apartmentUnit" name = "apartmentUnit_receiver" placeholder = "Apartment, Unit, Suite, or Floor(Optional)" value= "<?php if(isset($_POST["apartmentUnit"])) echo $_POST["apartmentUnit"]; ?>">		 
-				<!--<input class="form-control" id="route" disabled="true" placeholder="Route">-->
-				<input type = "text" id = "locality" name = "locality_receiver" placeholder="City" value= "<?php if(isset($_POST["locality"])) echo $_POST["locality"]; ?>">
-				
-				<input type = "text" id = "administrative_area_level_1" name = "administrative_area_level_1" placeholder="State" value= "<?php if(isset($_POST["administrative_area_level_1"])) echo $_POST["administrative_area_level_1"]; ?>">
-				
-				<input type = "text" id = "postal_code" name = "postal_code" placeholder="ZIP Code / Postal Code" value= "<?php if(isset($_POST["postal_code"])) echo $_POST["postal_code"]; ?>">
-				
-				<input type = "text" id = "country" name = "country" placeholder="Country" value= "<?php if(isset($_POST["country"])) echo $_POST["country"]; ?>">
+				</form>
 				
 				<input type="submit" name="submit" value="SUBMIT">
 				<input type="hidden" name="submitted" value="true"/>
-			
-			</form>
+				
+			</div>
 		
 		</div>
 	
