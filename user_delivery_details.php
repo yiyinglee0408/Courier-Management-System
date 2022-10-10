@@ -32,11 +32,11 @@
 			.container1
 			{
 				
-				height:500px;
+				height:415px;
 				width:1350px;
 				margin:auto;
 				margin-top: 20px;
-				margin-bottom:75px;
+				margin-bottom:40px;
 				border-style: solid;
 				border-color: #E9ECEF;
 			}
@@ -58,6 +58,33 @@
 				background-color:white;
 				padding-left:50px;
 				padding-top:30px;
+			}
+			
+			.nextButton
+			{
+				margin-right:60px;
+				margin-bottom: 140px;
+			}
+			
+			input[type=button]
+			{
+				display:inline-block;
+				width:13%;
+				text-transform:uppercase;
+				background-color:#2874A6;
+				color:white;
+				font-weight:600;
+				border:none;
+				padding:1rem;
+				border-radius:8px;
+				font-size:15px;
+				letter-spacing:0.5px;
+				margin-bottom:20px;
+			}
+			
+			input[type=button]:hover
+			{
+				background-color:#5499C7;
 			}
 			
 			.receiver_details
@@ -139,7 +166,7 @@
 			
 			<form method = "POST" action = "user_delivery_details.php" class = "form" id = "senderAddress">
 			
-				<h3>Sender Details</h3><br/>
+				<h3 style = "color:#21618C">Sender Details</h3><br/>
 				
 				<label for = "fullName">Full Name</label>
 				<input type = "text" id = "fullName" name = "fullName" placeholder = "Full Name" value= "<?php echo $row["fullName"]; ?>"/><br/>
@@ -174,7 +201,7 @@
 			
 				<form method = "POST" action = "user_delivery_details.php">
 				
-					<h3>Receiver Details</h3><br/>
+					<h3 style = "color:#21618C">Receiver Details</h3><br/>
 					
 					<label for = "receiverFullName">Full Name</label>
 					<input type = "text" id = "receiverFullName" name = "receiverFullName" placeholder = "Full Name" value= "<?php if(isset($_POST["fullName"])) echo $_POST["fullName"]; ?>"/><br/><br/>
@@ -216,7 +243,7 @@
 		
 			<form method = "POST" action = "user_delivery_details.php" class = "form1" id = "additional">
 			
-				<h3>Additional Receiver Details</h3><br/>
+				<h3 style = "color:#21618C">Additional Receiver Details</h3><br/>
 				
 				<label for = "addReceiverFullName">Full Name</label>
 				<input type = "text" id = "addReceiverFullName" name = "addReceiverFullName" placeholder = "Full Name" disabled="true" value= "<?php if(isset($_POST["fullName"])) echo $_POST["fullName"]; ?>"/><br/><br/>
@@ -226,8 +253,13 @@
 				
 				<label for = "addReceiverContactNumber">Contact Number</label>
 				<input type = "tel" id = "addReceiverContactNumber" name = "addReceiverContactNumber" placeholder = "Contact Number" pattern = "[0-9]{3}-[0-9]{7,8}" disabled="true" value= "<?php if(isset($_POST["contactNumber"])) echo $_POST["contactNumber"]; ?>"/><br/><br/>
+				
 			</form>
 			
+		</div>
+		
+		<div class = "nextButton">
+			<a href = "shipmentDetails"><input type="button" value="NEXT" style="float: right;"></a>
 		</div>
 	
 	</body>  
