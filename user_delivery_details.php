@@ -209,7 +209,7 @@
 		
 		</div>
 		
-		<input type = "checkbox" id = "addReceiverDetails" name = "addReceiverDetails" value = "Additional Receiver Details" onclick = "addReceiverDetails">
+		<input type = "checkbox" id = "addReceiverDetails" name = "addReceiverDetails" value = "Additional Receiver Details" onclick = "enableFields()">
 		<label for = "addReceiverDetails">Do you want to add additional receiver details?</label>
 		
 		<div class = "container1">
@@ -233,18 +233,27 @@
 	</body>  
 	
 	<script>
-		//var componentForm = {
-			//addReceiverFullName: 'addReceiverFullName',
-			//addReceiverEmail: 'addReceiverEmail',
-			//addReceiverContactNumber: 'addReceiverContactNumber'
-		//}
-		function addReceiverDetails()
+		function enableFields()
 		{
+			var addReceiverDetails = document.getElementById("addReceiverDetails");
+			var addReceiverFullName = document.getElementById("addReceiverFullName");
+			var addReceiverEmail = document.getElementById("addReceiverEmail");
+			var addReceiverContactNumber = document.getElementById("addReceiverContactNumber");
 			
-			document.getElementById(addReceiverFullName).disabled = false;
-			https://stackoverflow.com/questions/31559034/disable-input-if-checkbox-checked
+			if(addReceiverDetails.checked == true)
+			{
+				addReceiverFullName.disabled = false;
+				addReceiverEmail.disabled = false;
+				addReceiverContactNumber.disabled = false;
+			}
+			else
+			{
+				addReceiverFullName.disabled = true;
+				addReceiverEmail.disabled = true;
+				addReceiverContactNumber.disabled = true;
+			}
+			
 		}
-	
 	</script>
 		
 	<!--Sender address autocomplete-->
