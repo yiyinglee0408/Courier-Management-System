@@ -24,7 +24,7 @@
 				width:1350px;
 				margin:auto;
 				margin-top: 75px;
-				margin-bottom:50px;
+				margin-bottom:40px;
 				border-style: solid;
 				border-color: #E9ECEF;
 			}
@@ -42,11 +42,11 @@
 			
 			.container2
 			{
-				height:470px;
+				height:820px;
 				width:1350px;
 				margin:auto;
-				margin-top: 50px;
-				margin-bottom:50px;
+				margin-top: 20px;
+				margin-bottom:80px;
 				border-style: solid;
 				border-color: #E9ECEF;
 				background-color:white;
@@ -75,7 +75,7 @@
 			{
 				background-color:white;
 				padding-left:50px;
-				padding-bottom:33px;
+				padding-bottom:70px;
 			}
 			
 			.sdH3
@@ -151,22 +151,6 @@
 				margin-bottom: 140px;
 			}
 			
-			input[type=button]
-			{
-				display:inline-block;
-				width:13%;
-				text-transform:uppercase;
-				background-color:#2874A6;
-				color:white;
-				font-weight:600;
-				border:none;
-				padding:1rem;
-				border-radius:8px;
-				font-size:15px;
-				letter-spacing:0.5px;
-				margin-bottom:20px;
-			}
-			
 			input[type=button]:hover
 			{
 				background-color:#5499C7;
@@ -200,7 +184,7 @@
 			input[type=submit]
 			{
 				display:inline-block;
-				width:70%;
+				width:13%;
 				text-transform:uppercase;
 				background-color:#2874A6;
 				color:white;
@@ -210,6 +194,7 @@
 				border-radius:8px;
 				font-size:15px;
 				letter-spacing:0.5px;
+				margin-right:60px;
 				margin-bottom:20px;
 			}
 			
@@ -243,6 +228,51 @@
 		$administrative_area_level_1 = $row['administrative_area_level_1'];	
 		$postal_code =  $row['postal_code'];
 		$country = $row['country'];
+		
+		if(isset($_POST['submit']))
+		{
+			$receiverFullName =  $_POST['receiverFullName'];
+			$receiverEmail    =  $_POST['receiverEmail'];
+			$receiverContactNumber = $_POST['receiverContactNumber'];
+			$receiverAddress = $_POST['receiverAddress'];
+			$receiverApartmentUnit = $_POST['receiverApartmentUnit'];
+			$receiverCity = $_POST['receiverCity'];
+			$receiverState = $_POST['receiverState'];	
+			$receiverPostalCode =  $_POST['receiverPostalCode'];
+			$receiverCountry = $_POST['receiverCountry'];
+			$addReceiverFullName =  $_POST['addReceiverFullName'];
+			$addReceiverEmail =  $_POST['addReceiverEmail'];
+			$addReceiverContactNumber = $_POST['addReceiverContactNumber'];
+			
+			$parcelLength = $_POST['parcelLength'];
+			$parcelWidth = $_POST['parcelWidth'];
+			$parcelHeight = $_POST['parcelHeight'];
+			$parcelWeight = $_POST['parcelWeight'];
+			$collectionDate = $_POST['collectionDate'];
+			$parcelContent = $_POST['parcelContent'];
+			$parcelValue = $_POST['parcelValue'];
+			
+			$receiverFullName = mysqli_real_escape_string($combine, $receiverFullName);
+			$receiverEmail = mysqli_real_escape_string($combine, $receiverEmail);
+			$receiverContactNumber = mysqli_real_escape_string($combine, $receiverContactNumber);
+			$receiverAddress = mysqli_real_escape_string($combine, $receiverAddress);
+			$receiverApartmentUnit = mysqli_real_escape_string($combine, $receiverApartmentUnit);
+			$receiverCity = mysqli_real_escape_string($combine, $receiverCity);
+			$receiverState = mysqli_real_escape_string($combine, $receiverState);
+			$receiverPostalCode = mysqli_real_escape_string($combine, $receiverPostalCode);
+			$receiverCountry = mysqli_real_escape_string($combine, $receiverCountry);
+			$addReceiverFullName = mysqli_real_escape_string($combine, $addReceiverFullName);
+			$addReceiverEmail = mysqli_real_escape_string($combine, $addReceiverEmail);
+			$addReceiverContactNumber = mysqli_real_escape_string($combine, $addReceiverContactNumber);
+			
+			$parcelLength = mysqli_real_escape_string($combine, $parcelLength);
+			$parcelWidth = mysqli_real_escape_string($combine, $parcelWidth);
+			$parcelHeight = mysqli_real_escape_string($combine, $parcelHeight);
+			$parcelWeight = mysqli_real_escape_string($combine, $parcelWeight);
+			$collectionDate = mysqli_real_escape_string($combine, $collectionDate);
+			$parcelContent = mysqli_real_escape_string($combine, $parcelContent);
+			$parcelValue = mysqli_real_escape_string($combine, $parcelValue);
+		}
 	?>
 	
 	<body>
@@ -347,52 +377,33 @@
 			
 			<h3 style = "color:#21618C" class = "sdH3">Shipment Details</h3><br/>
 			
-			<button id = "calculateWeight" name = "calculateWeight" class = "calculateWeight">Parcel Volumetric Weight Calculator</button><br><br>
-			
 			<form method = "POST" action = "shipmentDetails.php" class = "form2" id = "shipmentDetails">
+			
+				<label for = "quantity">Parcel Length(cm)</label><br/>
+				<input type="text" id="parcelLength" name="parcelLength" placeholder = "Eg:80"><br><br>
+				
+				<label for = "quantity">Parcel Width(cm)</label><br/>
+				<input type="text" id="parcelWidth" name="parcelWidth" placeholder = "Eg:100"><br><br>
+				
+				<label for = "quantity">Parcel Height(cm)</label><br/>
+				<input type="text" id="parcelHeight" name="parcelHeight" placeholder = "Eg:30"><br><br>
 				
 				<label for = "quantity">Parcel Weight(kg)</label><br/>
 				<input type="text" id="parcelWeight" name="parcelWeight" placeholder = "Eg:1kg"><br><br>
 				
-				<label for = "mode">Parcel Collection Date</label><br>
+				<label for = "collectionDate">Parcel Collection Date</label><br>
 				<input type = "date" id = "collectionDate" name = "collectionDate"><br><br>
 				
-				<label for = "mode">Parcel Content</label><br>
+				<label for = "parcelContent">Parcel Content</label><br>
 				<input type = "text" id = "parcelContent" name = "parcelContent" placeholder = "Eg:Book"><br><br>
 				
-				<label for = "mode">Parcel Value(MYR)</label><br>
-				<input type = "text" id = "parcelContent" name = "parcelContent" placeholder = "Eg:15.00"><br><br>
+				<label for = "parcelValue">Parcel Value(MYR)</label><br>
+				<input type = "text" id = "parcelValue" name = "parcelValue" placeholder = "Eg:15.00"><br><br>
 			
+				<input type = "hidden" name = "submitted" value = "true"/>
+				<input type = "submit" style = "float:right" value = "SUBMIT" name = "submit"/> 
 			</form>
 		
-		</div>
-		
-		<div class = "calculateModal" id = "calculateModal" name = "calculateModal">
-		
-			<div class = "calculateModalContent">
-				<span class="close">&times;</span>
-				<form method = "POST" action = "shipmentDetails.php" id = "calculateModal">
-					<label for = "quantity">Parcel Length(cm)</label><br/>
-					<input type="text" id="parcelLength" name="parcelLength" placeholder = "Eg:80"><br><br>
-					
-					<label for = "quantity">Parcel Width(cm)</label><br/>
-					<input type="text" id="parcelWidth" name="parcelWidth" placeholder = "Eg:100"><br><br>
-					
-					<label for = "quantity">Parcel Height(cm)</label><br/>
-					<input type="text" id="parcelHeight" name="parcelHeight" placeholder = "Eg:30"><br><br>
-					
-					<input type = "hidden" name = "submitted" value = "true"/>
-					<input type = "submit" style = "float:center" value = "SUBMIT" name = "submit"/> 
-					
-					<p>Total Parcel Weight: </p>
-				</form>
-			
-			</div>
-		
-		</div>
-		
-		<div class = "nextButton">
-			<a href = "shipmentDetails.php"><input type="button" value="NEXT" style="float: right;"></a>	
 		</div>
 	
 	</body>  
