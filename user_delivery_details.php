@@ -31,7 +31,6 @@
 			
 			.container1
 			{
-				
 				height:415px;
 				width:1350px;
 				margin:auto;
@@ -39,6 +38,18 @@
 				margin-bottom:40px;
 				border-style: solid;
 				border-color: #E9ECEF;
+			}
+			
+			.container2
+			{
+				height:470px;
+				width:1350px;
+				margin:auto;
+				margin-top: 50px;
+				margin-bottom:50px;
+				border-style: solid;
+				border-color: #E9ECEF;
+				background-color:white;
 			}
 			
 			.form
@@ -58,6 +69,80 @@
 				background-color:white;
 				padding-left:50px;
 				padding-top:30px;
+			}
+			
+			.form2
+			{
+				background-color:white;
+				padding-left:50px;
+				padding-bottom:33px;
+			}
+			
+			.sdH3
+			{
+				margin-top:30px;
+				margin-left:50px;
+			}
+			
+			.calculateWeight
+			{
+				width:25%;
+				display:inline-block;
+			    text-transform:uppercase;
+				background-color:white;
+				border: 2px solid #E9ECEF;
+				color:black;
+				padding: 12px 0px;
+				font-size: 12px;
+				border-radius:8px;
+				margin-left:50px;
+			}
+			
+			.calculateWeight:hover
+			{
+				background-color:#E9ECEF;
+				color:black;
+			}
+			
+			.calculateModal
+			{
+				  display: none; /* Hidden by default */
+				  position: fixed; /* Stay in place */
+				  z-index: 1; /* Sit on top */
+				  padding-top: 100px; /* Location of the box */
+				  left: 0;
+				  top: 0;
+				  width: 100%; /* Full width */
+				  height: 100%; /* Full height */
+				  overflow: auto; /* Enable scroll if needed */
+				  background-color: rgb(0,0,0); /* Fallback color */
+				  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+			}
+			
+			.calculateModalContent
+			{
+				background-color: #fefefe;
+			    margin: auto;
+			    padding: 20px;
+			    border: 1px solid #888;
+			    width: 80%;
+			}
+			
+			/* The Close Button */
+			.close 
+			{
+			  color: #aaaaaa;
+			  float: right;
+			  font-size: 28px;
+			  font-weight: bold;
+			}
+
+			.close:hover,
+			.close:focus 
+			{
+			  color: #000;
+			  text-decoration: none;
+			  cursor: pointer;
 			}
 			
 			.nextButton
@@ -102,7 +187,7 @@
 				margin-left:70px;
 			}
 			
-			input[type=text],input[type=tel]
+			input[type=text],input[type=tel],input[type=date]
 			{
 				width:95%;
 				border:none;
@@ -199,7 +284,7 @@
 			
 			<div class = "receiver_details">
 			
-				<form method = "POST" action = "user_delivery_details.php">
+				<form method = "POST" action = "user_delivery_details.php" id = "receiverAddress">
 				
 					<h3 style = "color:#21618C">Receiver Details</h3><br/>
 					
@@ -258,11 +343,78 @@
 			
 		</div>
 		
+		<div class = "container2">
+			
+			<h3 style = "color:#21618C" class = "sdH3">Shipment Details</h3><br/>
+			
+			<button id = "calculateWeight" name = "calculateWeight" class = "calculateWeight">Parcel Volumetric Weight Calculator</button><br><br>
+			
+			<form method = "POST" action = "shipmentDetails.php" class = "form2" id = "shipmentDetails">
+				
+				<label for = "quantity">Parcel Weight(kg)</label><br/>
+				<input type="text" id="parcelWeight" name="parcelWeight" placeholder = "Eg:1kg"><br><br>
+				
+				<label for = "mode">Parcel Collection Date</label><br>
+				<input type = "date" id = "collectionDate" name = "collectionDate"><br><br>
+				
+				<label for = "mode">Parcel Content</label><br>
+				<input type = "text" id = "parcelContent" name = "parcelContent" placeholder = "Eg:Book"><br><br>
+				
+				<label for = "mode">Parcel Value(MYR)</label><br>
+				<input type = "text" id = "parcelContent" name = "parcelContent" placeholder = "Eg:15.00"><br><br>
+			
+			</form>
+		
+		</div>
+		
+		<div class = "calculateModal" id = "calculateModal" name = "calculateModal">
+		
+			<div class = "calculateModalContent">
+				<span class="close">&times;</span>
+				<form method = "POST" action = "shipmentDetails.php" id = "calculateModal">
+					<label for = "quantity">Parcel Length(cm)</label><br/>
+					<input type="text" id="parcelLength" name="parcelLength" placeholder = "Eg:80"><br><br>
+					
+					<label for = "quantity">Parcel Width(cm)</label><br/>
+					<input type="text" id="parcelWidth" name="parcelWidth" placeholder = "Eg:100"><br><br>
+					
+					<label for = "quantity">Parcel Height(cm)</label><br/>
+					<input type="text" id="parcelHeight" name="parcelHeight" placeholder = "Eg:30"><br><br>
+					
+					<input type = "hidden" name = "submitted" value = "true"/>
+					<input type = "submit" style = "float:center" value = "SUBMIT" name = "submit"/> 
+					
+					<p>Total Parcel Weight: </p>
+				</form>
+			
+			</div>
+		
+		</div>
+		
 		<div class = "nextButton">
-			<a href = "shipmentDetails"><input type="button" value="NEXT" style="float: right;"></a>
+			<a href = "shipmentDetails.php"><input type="button" value="NEXT" style="float: right;"></a>	
 		</div>
 	
 	</body>  
+	
+	<script>
+	
+		//Get the Calculator Modal
+		var calculateModal = document.getElementById("calculateModal");
+		var calculateWeight = document.getElementById("calculateWeight");
+		// Get the <span> element that closes the modal
+		var span = document.getElementsByClassName("close")[0];
+		
+		calculateWeight.onclick = function() 
+		{
+		  calculateModal.style.display = "block";
+		}
+		
+		// When the user clicks on <span> (x), close the modal
+		span.onclick = function() {
+		  calculateModal.style.display = "none";
+		}
+	</script>
 	
 	<script>
 		function enableFields()
