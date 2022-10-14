@@ -42,7 +42,7 @@
 				display:flex;
 				flex-direction:column;
 				width: 50%;
-				align-items:center;
+				align-items:left;
 				background-color:white;
 			}
 			
@@ -91,7 +91,8 @@
 			
 			.account
 			{
-				margin-bottom:20px;
+				margin-bottom:30px;
+				text-align:center;
 			}
 		</style>
 		
@@ -103,8 +104,10 @@
 		session_start();
 		if(isset($_POST['submit']))
 		{
+			$fullName = mysqli_real_escape_string($combine, $_POST['fullName']);
 			$email = mysqli_real_escape_string($combine, $_POST['email']);
 			$password = mysqli_real_escape_string($combine, $_POST['password']);
+			$fullName = stripslashes($_POST['fullName']);
 			$email = stripslashes($_POST['email']);
 			$password = stripslashes($_POST['password']);
 			$valid = true;
@@ -119,10 +122,12 @@
 				$sql="SELECT * FROM user WHERE email='$email' AND password='$password' ";
 				$result=mysqli_query($combine,$sql);
 				$row=mysqli_fetch_array($result);
-				$email = $row['email'];
+				$userID = $row['userID'];
 				if(mysqli_num_rows($result)== 1)
 				{
+					$_SESSION['fullName'] = $fullName;
 					$_SESSION['email'] = $email;
+					$_SESSION['userID'] = $userID;
 					echo "<script>alert('You are now logged in.');
 						window.location='user_delivery_details.php'</script>";
 						return true;
@@ -143,18 +148,20 @@
 		
 			<form method = "POST" action ="login.php" class = "form">
 			
-				<h1 style="text-transform:uppercase">Login</h1>
+				<h1 style="text-transform:uppercase; text-align:center">Login</h1>
 				
 				<p class = "account"><small>Don't have an account? <a href = "register.php" style="color:#2874A6"><strong>Register</strong></a></small></p>
-		
-				<input type = "email" id = "email" name = "email" placeholder = "Email" value= "<?php if(isset($_POST["email"])) echo $_POST["email"]; ?>"><br>
 				
-				<input type = "password" id = "password" name = "password" placeholder = "Password" value= "<?php if(isset($_POST["password"])) echo $_POST["password"]; ?>">
+				<label for = "email" style = "padding-left:85px;">Email</label>
+				<center><input type = "email" id = "email" name = "email" placeholder = "Email" value= "<?php if(isset($_POST["email"])) echo $_POST["email"]; ?>"></center><br><br>
 				
-				<p style="margin-bottom:20px"><a href = "forgetPassword.php" style="color:#2874A6"><small><strong>Forget Password?</strong></small></a></p>
+				<label for = "password" style = "padding-left:85px;">Password</label>
+				<center><input type = "password" id = "password" name = "password" placeholder = "Password" value= "<?php if(isset($_POST["password"])) echo $_POST["password"]; ?>"></center>
 				
-				<input type = "hidden" name = "submitted" value = "true"/>
-				<input type = "submit" style = "float:center" value = "LOGIN" name = "submit"/> 
+				<p style="margin-bottom:20px; text-align:center"><a href = "forgetPassword.php" style="color:#2874A6"><small><strong>Forget Password?</strong></small></a></p>
+				
+				<center><input type = "hidden" name = "submitted" value = "true"/>
+				<input type = "submit" style = "float:center" value = "LOGIN" name = "submit"/></center>
 				
 			</form>
 			
