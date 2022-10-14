@@ -19,156 +19,30 @@
 			
 			.container
 			{
-				display:flex;
-				height:970px;
+				height:2935px;
 				width:1350px;
 				margin:auto;
 				margin-top: 75px;
-				margin-bottom:40px;
+				margin-bottom:75px;
 				border-style: solid;
 				border-color: #E9ECEF;
-			}
-			
-			.container1
-			{
-				height:415px;
-				width:1350px;
-				margin:auto;
-				margin-top: 20px;
-				margin-bottom:40px;
-				border-style: solid;
-				border-color: #E9ECEF;
-			}
-			
-			.container2
-			{
-				height:820px;
-				width:1350px;
-				margin:auto;
-				margin-top: 20px;
-				margin-bottom:80px;
-				border-style: solid;
-				border-color: #E9ECEF;
-				background-color:white;
 			}
 			
 			.form
 			{
 				display:flex;
 				flex-direction:column;
-				width: 50%;
 				background-color:white;
 				padding-left:50px;
-				padding-top:30px;
-			}
-			
-			.form1
-			{
-				display:flex;
-				flex-direction:column;
-				background-color:white;
-				padding-left:50px;
-				padding-top:30px;
-			}
-			
-			.form2
-			{
-				background-color:white;
-				padding-left:50px;
-				padding-bottom:70px;
-			}
-			
-			.sdH3
-			{
-				margin-top:30px;
-				margin-left:50px;
-			}
-			
-			.calculateWeight
-			{
-				width:25%;
-				display:inline-block;
-			    text-transform:uppercase;
-				background-color:white;
-				border: 2px solid #E9ECEF;
-				color:black;
-				padding: 12px 0px;
-				font-size: 12px;
-				border-radius:8px;
-				margin-left:50px;
-			}
-			
-			.calculateWeight:hover
-			{
-				background-color:#E9ECEF;
-				color:black;
-			}
-			
-			.calculateModal
-			{
-				  display: none; /* Hidden by default */
-				  position: fixed; /* Stay in place */
-				  z-index: 1; /* Sit on top */
-				  padding-top: 100px; /* Location of the box */
-				  left: 0;
-				  top: 0;
-				  width: 100%; /* Full width */
-				  height: 100%; /* Full height */
-				  overflow: auto; /* Enable scroll if needed */
-				  background-color: rgb(0,0,0); /* Fallback color */
-				  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-			}
-			
-			.calculateModalContent
-			{
-				background-color: #fefefe;
-			    margin: auto;
-			    padding: 20px;
-			    border: 1px solid #888;
-			    width: 80%;
-			}
-			
-			/* The Close Button */
-			.close 
-			{
-			  color: #aaaaaa;
-			  float: right;
-			  font-size: 28px;
-			  font-weight: bold;
-			}
-
-			.close:hover,
-			.close:focus 
-			{
-			  color: #000;
-			  text-decoration: none;
-			  cursor: pointer;
-			}
-			
-			.nextButton
-			{
-				margin-right:60px;
-				margin-bottom: 140px;
-			}
-			
-			input[type=button]:hover
-			{
-				background-color:#5499C7;
+				padding-top:50px;
+				padding-bottom:50px;
 			}
 			
 			.receiver_details
 			{
-				display:flex;
-				flex-direction:column;
-				width: 50%;
 				background-color:white;
 				padding-right:30px;
 				padding-top:30px;
-			}
-			
-			input[type=checkbox]
-			{
-				margin-left:70px;
 			}
 			
 			input[type=text],input[type=tel],input[type=date]
@@ -194,8 +68,7 @@
 				border-radius:8px;
 				font-size:15px;
 				letter-spacing:0.5px;
-				margin-right:60px;
-				margin-bottom:20px;
+				margin-bottom:10px;
 			}
 			
 			input[type=submit]:hover
@@ -229,7 +102,7 @@
 		$postal_code =  $row['postal_code'];
 		$country = $row['country'];
 		
-		if(isset($_POST['submit']))
+		if(isset($_POST['submitted']))
 		{
 			$receiverFullName =  $_POST['receiverFullName'];
 			$receiverEmail    =  $_POST['receiverEmail'];
@@ -243,10 +116,6 @@
 			$addReceiverFullName =  $_POST['addReceiverFullName'];
 			$addReceiverEmail =  $_POST['addReceiverEmail'];
 			$addReceiverContactNumber = $_POST['addReceiverContactNumber'];
-			
-			$parcelLength = $_POST['parcelLength'];
-			$parcelWidth = $_POST['parcelWidth'];
-			$parcelHeight = $_POST['parcelHeight'];
 			$parcelWeight = $_POST['parcelWeight'];
 			$collectionDate = $_POST['collectionDate'];
 			$parcelContent = $_POST['parcelContent'];
@@ -264,14 +133,46 @@
 			$addReceiverFullName = mysqli_real_escape_string($combine, $addReceiverFullName);
 			$addReceiverEmail = mysqli_real_escape_string($combine, $addReceiverEmail);
 			$addReceiverContactNumber = mysqli_real_escape_string($combine, $addReceiverContactNumber);
-			
-			$parcelLength = mysqli_real_escape_string($combine, $parcelLength);
-			$parcelWidth = mysqli_real_escape_string($combine, $parcelWidth);
-			$parcelHeight = mysqli_real_escape_string($combine, $parcelHeight);
-			$parcelWeight = mysqli_real_escape_string($combine, $parcelWeight);
+			//$parcelLength = mysqli_real_escape_string($combine, $parcelLength);
+			//$parcelWidth = mysqli_real_escape_string($combine, $parcelWidth);
+			//$parcelHeight = mysqli_real_escape_string($combine, $parcelHeight);
+			//$parcelWeight = mysqli_real_escape_string($combine, $parcelWeight);
 			$collectionDate = mysqli_real_escape_string($combine, $collectionDate);
 			$parcelContent = mysqli_real_escape_string($combine, $parcelContent);
-			$parcelValue = mysqli_real_escape_string($combine, $parcelValue);
+			$parcelValue = mysqli_real_escape_string($combine, $parcelValue);			
+			
+			if(empty($receiverFullName) || empty($receiverEmail) || empty($receiverContactNumber) || empty($receiverAddress) || empty($receiverApartmentUnit) || empty($receiverCity) || empty($receiverState) || empty($receiverPostalCode) || empty($receiverCountry) || empty($collectionDate) || empty($parcelContent) || empty($parcelValue))
+			{
+				echo"<script>alert('Please do not let the field empty!')</script>";
+			}
+			elseif (!filter_var($receiverEmail, FILTER_VALIDATE_EMAIL))
+			{
+				echo"<script>alert('Please enter a valid email!')</script>";
+			}
+			elseif (!filter_var($receiverEmail, FILTER_VALIDATE_EMAIL))
+			{
+				echo"<script>alert('Please enter a valid email!')</script>";
+			}
+			else
+			{
+				//Check from database to make sure a user does not exist with the same email
+				//success store data and display message
+				$query = mysqli_query($combine, "INSERT INTO user_delivery_details
+				(userID, fullName, email, contactNumber, autocomplete, apartmentUnit, locality, administrative_area_level_1, postal_code, country, receiverFullName, receiverEmail, receiverContactNumber, receiverAddress, receiverApartmentUnit, receiverCity, receiverState, receiverPostalCode, receiverCountry, addReceiverFullName, addReceiverEmail, addReceiverContactNumber, parcelWeight, collectionDate, parcelContent, parcelValue) VALUES
+				('$userID','$fullName', '$email', '$contactNumber', '$autocomplete', '$apartmentUnit', '$locality', '$administrative_area_level_1', '$postal_code', '$country', '$receiverFullName', '$receiverEmail', '$receiverContactNumber', '$receiverAddress', '$receiverApartmentUnit', '$receiverCity', '$receiverState', '$receiverPostalCode', '$receiverCountry', '$addReceiverFullName', '$addReceiverEmail', '$addReceiverContactNumber', '$parcelWeight', '$collectionDate', '$parcelContent', '$parcelValue')");
+				if ($query)
+				{
+					//$_SESSION['success'] = "You are now logged in";
+					echo "<script>alert('Your delivery details had been success key in.');
+					window.location='user_delivery_details.php'</script>";
+				}
+				else
+				{
+					//message invalid input
+					echo"<script>alert('You have no success store record in database')</script>";
+				}
+			}
+			
 		}
 	?>
 	
@@ -279,7 +180,7 @@
 	
 		<div class = "container">
 			
-			<form method = "POST" action = "user_delivery_details.php" class = "form" id = "senderAddress">
+			<form method = "POST" action = "user_delivery_details.php" class = "form">
 			
 				<h3 style = "color:#21618C">Sender Details</h3><br/>
 				
@@ -308,50 +209,70 @@
 				<input type = "text" id = "postal_code" name = "postal_code" placeholder="ZIP Code / Postal Code" value= "<?php echo $row["postal_code"]; ?>"><br/>
 				
 				<label for = "country">Country</label>
-				<input type = "text" id = "country" name = "country" placeholder="Country" value= "<?php echo $row["country"]; ?>"><br/>
+				<input type = "text" id = "country" name = "country" placeholder="Country" value= "<?php echo $row["country"]; ?>"><br/><br>
 				
+				<h3 style = "color:#21618C">Receiver Details</h3><br/>
+				
+				<label for = "receiverFullName">Full Name</label>
+				<input type = "text" id = "receiverFullName" name = "receiverFullName" placeholder = "Full Name" value= "<?php if(isset($_POST["receiverFullName"])) echo $_POST["receiverFullName"]; ?>"/><br/>
+				
+				<label for = "receiverEmail">Email</label>
+				<input type = "text" id = "receiverEmail" name = "receiverEmail" placeholder = "Email" pattern = "[a-zA-Z0-9]+@(gmail|yahoo|outlook)\.com" value= "<?php if(isset($_POST["receiverEmail"])) echo $_POST["receiverEmail"]; ?>"/><br/>
+				
+				<label for = "receiverContactNumber">Contact Number</label>
+				<input type = "tel" id = "receiverContactNumber" name = "receiverContactNumber" placeholder = "Contact Number" pattern = "[0-9]{3}-[0-9]{7,8}" value= "<?php if(isset($_POST["receiverContactNumber"])) echo $_POST["receiverContactNumber"]; ?>"/><br/>
+				
+				<label for = "receiverAddress">Address</label>
+				<input type = "text" id = "receiverAddress" name = "receiverAddress" placeholder = "Please Enter Address Here..." value= "<?php if(isset($_POST["receiverAddress"])) echo $_POST["receiverAddress"]; ?>"/><br/>
+				
+				<label for = "receiverApartmentUnit">Apartment, Unit, Suite, or Floor(Optional)</label>
+				<input type = "text" id = "receiverApartmentUnit" name = "receiverApartmentUnit" placeholder = "Apartment, Unit, Suite, or Floor(Optional)" value= "<?php if(isset($_POST["receiverApartmentUnit"])) echo $_POST["receiverApartmentUnit"]; ?>"/><br/>
+				
+				<label for = "receiverCity">City</label>
+				<input type = "text" id = "receiverCity" name = "receiverCity" placeholder="City" value= "<?php if(isset($_POST["receiverCity"])) echo $_POST["receiverCity"]; ?>"><br/>
+				
+				<label for = "receiverState">State</label>
+				<input type = "text" id = "receiverState" name = "receiverState" placeholder="State" value= "<?php if(isset($_POST["receiverState"])) echo $_POST["receiverState"]; ?>"><br/>
+				
+				<label for = "receiverPostalCode">ZIP Code / Postal Code</label>
+				<input type = "text" id = "receiverPostalCode" name = "receiverPostalCode" placeholder="ZIP Code / Postal Code" value= "<?php if(isset($_POST["receiverPostalCode"])) echo $_POST["receiverPostalCode"]; ?>"><br/>
+				
+				<label for = "receiverCountry">Country</label>
+				<input type = "text" id = "receiverCountry" name = "receiverCountry" placeholder="Country" value= "<?php if(isset($_POST["receiverCountry"])) echo $_POST["receiverCountry"]; ?>"><br/><br/>
+				
+				<h3 style = "color:#21618C">Additional Receiver Details (Optional)</h3><br/>
+			
+				<label for = "addReceiverFullName">Full Name</label>
+				<input type = "text" id = "addReceiverFullName" name = "addReceiverFullName" placeholder = "Full Name" value= "<?php if(isset($_POST["addReceiverFullName"])) echo $_POST["addReceiverFullName"]; ?>"/><br/><br/>
+				
+				<label for = "addReceiverEmail">Email</label><br>
+				<input type = "text" id = "addReceiverEmail" name = "addReceiverEmail" placeholder = "Email" pattern = "[a-zA-Z0-9]+@(gmail|yahoo|outlook)\.com" value= "<?php if(isset($_POST["addReceiverEmail"])) echo $_POST["addReceiverEmail"]; ?>"/><br/><br/>
+				
+				<label for = "addReceiverContactNumber">Contact Number</label>
+				<input type = "tel" id = "addReceiverContactNumber" name = "addReceiverContactNumber" placeholder = "Contact Number" pattern = "[0-9]{3}-[0-9]{7,8}" value= "<?php if(isset($_POST["addReceiverContactNumber"])) echo $_POST["addReceiverContactNumber"]; ?>"/><br/><br/>
+				
+				<h3 style = "color:#21618C">Shipment Details</h3><br/>
+				
+				<label for = "quantity">Parcel Weight(kg)</label><br/>
+				<input type="text" id="parcelWeight" name="parcelWeight" placeholder = "Eg:1kg" value= "<?php if(isset($_POST["parcelWeight"])) echo $_POST["parcelWeight"]; ?>"><br><br>
+				
+				<label for = "collectionDate">Parcel Collection Date</label><br>
+				<input type = "date" id = "collectionDate" name = "collectionDate"><br><br>
+				
+				<label for = "parcelContent">Parcel Content</label><br>
+				<input type = "text" id = "parcelContent" name = "parcelContent" placeholder = "Eg:Book"><br><br>
+				
+				<label for = "parcelValue">Parcel Value(MYR)</label><br>
+				<input type = "text" id = "parcelValue" name = "parcelValue" placeholder = "Eg:15.00"><br><br>
+				
+				<input type = "hidden" name = "submitted" value = "true"/>
+				<input type = "submit" style = "float:right" value = "SUBMIT" name = "submit"/> 
+			
 			</form>
-			
-			<div class = "receiver_details">
-			
-				<form method = "POST" action = "user_delivery_details.php" id = "receiverAddress">
-				
-					<h3 style = "color:#21618C">Receiver Details</h3><br/>
-					
-					<label for = "receiverFullName">Full Name</label>
-					<input type = "text" id = "receiverFullName" name = "receiverFullName" placeholder = "Full Name" value= "<?php if(isset($_POST["fullName"])) echo $_POST["fullName"]; ?>"/><br/><br/>
-					
-					<label for = "receiverEmail">Email</label>
-					<input type = "text" id = "receiverEmail" name = "receiverEmail" placeholder = "Email" pattern = "[a-zA-Z0-9]+@(gmail|yahoo|outlook)\.com" value= "<?php if(isset($_POST["email"])) echo $_POST["email"]; ?>"/><br/><br/>
-					
-					<label for = "receiverContactNumber">Contact Number</label>
-					<input type = "tel" id = "receiverContactNumber" name = "receiverContactNumber" placeholder = "Contact Number" pattern = "[0-9]{3}-[0-9]{7,8}" value= "<?php if(isset($_POST["contactNumber"])) echo $_POST["contactNumber"]; ?>"/><br/><br/>
-					
-					<label for = "receiverAddress">Address</label>
-					<input type = "text" id = "receiverAddress" name = "receiverAddress" placeholder = "Please Enter Address Here..." value= "<?php if(isset($_POST["autocomplete"])) echo $_POST["autocomplete"]; ?>"/><br/><br/>
-					
-					<label for = "receiverApartmentUnit">Apartment, Unit, Suite, or Floor(Optional)</label>
-					<input type = "text" id = "receiverApartmentUnit" name = "receiverApartmentUnit" placeholder = "Apartment, Unit, Suite, or Floor(Optional)" value= "<?php if(isset($_POST["apartmentUnit"])) echo $_POST["apartmentUnit"]; ?>"/><br/><br/>	 
-					
-					<label for = "receiverCity">City</label><br/>
-					<input type = "text" id = "receiverCity" name = "receiverCity" placeholder="City" value= "<?php if(isset($_POST["receiverCity"])) echo $_POST["receiverCity"]; ?>"><br/><br/>
-					
-					<label for = "receiverState">State</label>
-					<input type = "text" id = "receiverState" name = "receiverState" placeholder="State" value= "<?php if(isset($_POST["administrative_area_level_1"])) echo $_POST["administrative_area_level_1"]; ?>"><br/><br/>
-					
-					<label for = "receiverPostalCode">ZIP Code / Postal Code</label>
-					<input type = "text" id = "receiverPostalCode" name = "receiverPostalCode" placeholder="ZIP Code / Postal Code" value= "<?php if(isset($_POST["postal_code"])) echo $_POST["postal_code"]; ?>"><br/><br/>
-					
-					<label for = "receiverCountry">Country</label>
-					<input type = "text" id = "receiverCountry" name = "country" placeholder="Country" value= "<?php if(isset($_POST["country"])) echo $_POST["country"]; ?>"><br/><br/>
-			  
-				</form>
-				
-			</div>
 		
 		</div>
 		
-		<input type = "checkbox" id = "addReceiverDetails" name = "addReceiverDetails" value = "Additional Receiver Details" onclick = "enableFields()">
+		<!--<input type = "checkbox" id = "addReceiverDetails" name = "addReceiverDetails" value = "Additional Receiver Details" onclick = "enableFields()">
 		<label for = "addReceiverDetails">Do you want to add additional receiver details?</label>
 		
 		<div class = "container1">
@@ -399,57 +320,12 @@
 				
 				<label for = "parcelValue">Parcel Value(MYR)</label><br>
 				<input type = "text" id = "parcelValue" name = "parcelValue" placeholder = "Eg:15.00"><br><br>
-			
-				<input type = "hidden" name = "submitted" value = "true"/>
-				<input type = "submit" style = "float:right" value = "SUBMIT" name = "submit"/> 
+	
 			</form>
 		
-		</div>
+		</div>-->
 	
 	</body>  
-	
-	<script>
-	
-		//Get the Calculator Modal
-		var calculateModal = document.getElementById("calculateModal");
-		var calculateWeight = document.getElementById("calculateWeight");
-		// Get the <span> element that closes the modal
-		var span = document.getElementsByClassName("close")[0];
-		
-		calculateWeight.onclick = function() 
-		{
-		  calculateModal.style.display = "block";
-		}
-		
-		// When the user clicks on <span> (x), close the modal
-		span.onclick = function() {
-		  calculateModal.style.display = "none";
-		}
-	</script>
-	
-	<script>
-		function enableFields()
-		{
-			var addReceiverDetails = document.getElementById("addReceiverDetails");
-			var addReceiverFullName = document.getElementById("addReceiverFullName");
-			var addReceiverEmail = document.getElementById("addReceiverEmail");
-			var addReceiverContactNumber = document.getElementById("addReceiverContactNumber");
-			
-			if(addReceiverDetails.checked == true)
-			{
-				addReceiverFullName.disabled = false;
-				addReceiverEmail.disabled = false;
-				addReceiverContactNumber.disabled = false;
-			}
-			else
-			{
-				addReceiverFullName.disabled = true;
-				addReceiverEmail.disabled = true;
-				addReceiverContactNumber.disabled = true;
-			}
-			
-		}
-	</script>
 		
 	<!--Sender address autocomplete-->
 	<script>  
