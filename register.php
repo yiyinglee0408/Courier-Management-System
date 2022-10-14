@@ -31,7 +31,7 @@
 			.container
 			{
 				display:flex;
-				height:910px;
+				height:1270px;
 				width: 1100px;
 				margin:auto;
 				margin-top: 75px;
@@ -43,18 +43,18 @@
 				display:flex;
 				flex-direction:column;
 				width: 50%;
-				align-items:center;
+				padding-left:45px;
 				background-color:white;
 			}
 			
 			.form h1
 			{
-				margin:40px;
+				margin:20px;
 			}
 			
 			input[type=text], input[type=password], input[type=email], input[type=tel]
 			{
-				width:70%;
+				width:88%;
 				border:none;
 				border-bottom:2px solid black;
 				padding:12px 20px;
@@ -65,7 +65,7 @@
 			input[type=submit]
 			{
 				display:inline-block;
-				width:70%;
+				width:88%;
 				text-transform:uppercase;
 				background-color:#2874A6;
 				color:white;
@@ -78,23 +78,7 @@
 				margin-bottom:20px;
 			}
 			
-			input[type=submit]
-			{
-				display:inline-block;
-				width:70%;
-				text-transform:uppercase;
-				background-color:#2874A6;
-				color:white;
-				font-weight:600;
-				border:none;
-				padding:1rem;
-				border-radius:8px;
-				font-size:15px;
-				letter-spacing:0.5px;
-				margin-bottom:20px;
-			}
-			
-			.registerButton:hover
+			input[type=submit]:hover
 			{
 				background-color:#5499C7;
 			}
@@ -109,7 +93,12 @@
 			.image img
 			{
 				width:550px;
-				height:910px;
+				height:1270px;
+			}
+			
+			label
+			{
+				text-align: left;
 			}
 		</style>
 	</head>
@@ -119,7 +108,7 @@
 		//User Register Details
 		if(isset($_POST['submit']))
 		{
-			$username =  $_POST['username'];
+			$fullName =  $_POST['fullName'];
 			$email    =  $_POST['email'];
 			$contactNumber = $_POST['contactNumber'];
 			$autocomplete = $_POST['autocomplete'];
@@ -136,13 +125,13 @@
 			//$number       = preg_match('@[0-9]@', $password);
 			//$specialChars = preg_match('@[^\w]@', $password);
 			
-			$username = mysqli_real_escape_string($combine, $username);
+			$fullName = mysqli_real_escape_string($combine, $fullName);
 			$email = mysqli_real_escape_string($combine, $email);
 			$password = mysqli_real_escape_string($combine, $password);
 			$password = $password;
 			
 			//Register Form Validation
-			if(empty($username) || empty($email) || empty($contactNumber) || empty($autocomplete) || empty($locality) || empty($administrative_area_level_1) || empty($postal_code) || empty($country) || empty($password) || empty($confirmPassword))
+			if(empty($fullName) || empty($email) || empty($contactNumber) || empty($autocomplete) || empty($locality) || empty($administrative_area_level_1) || empty($postal_code) || empty($country) || empty($password) || empty($confirmPassword))
 			{
 				echo"<script>alert('Please do not let the field empty!')</script>";
 			}
@@ -202,29 +191,41 @@
 			</div>
 			
 			<form method = "POST" action ="register.php" class = "form">
-				<h1 style="text-transform:uppercase">Register</h1>
+				<h1 style="text-transform:uppercase; text-align:center">Register</h1>
 				
-				<p style="margin-bottom:5px"><small>Already have an account? <a href = "login.php" style="color:#2874A6"><strong>Log In</strong></a></small></p>
+				<p style="margin-bottom:20px; text-align:center"><small>Already have an account? <a href = "login.php" style="color:#2874A6"><strong>Log In</strong></a></small></p>
 				
-				<input type = "text" id = "username" name = "username" placeholder = "Username" value= "<?php if(isset($_POST["username"])) echo $_POST["username"]; ?>"/>
+				<label for = "fullName">Full Name</label>
+				<input type = "text" id = "fullName" name = "fullName" placeholder = "Full Name" value= "<?php if(isset($_POST["fullName"])) echo $_POST["fullName"]; ?>"/><br>
 				
-				<input type = "text" id = "email" name = "email" placeholder = "Email" pattern = "[a-zA-Z0-9]+@(gmail|yahoo|outlook)\.com" value= "<?php if(isset($_POST["email"])) echo $_POST["email"]; ?>"/>
+				<label for = "email">Email</label>
+				<input type = "text" id = "email" name = "email" placeholder = "Email" pattern = "[a-zA-Z0-9]+@(gmail|yahoo|outlook)\.com" value= "<?php if(isset($_POST["email"])) echo $_POST["email"]; ?>"/><br>
 				
-				<input type = "tel" id = "contactNumber" name = "contactNumber" placeholder = "Contact Number" pattern = "[0-9]{3}-[0-9]{7,8}" value= "<?php if(isset($_POST["contactNumber"])) echo $_POST["contactNumber"]; ?>"/>
+				<label for = "contactNumber">Contact Number</label>
+				<input type = "tel" id = "contactNumber" name = "contactNumber" placeholder = "Contact Number" pattern = "[0-9]{3}-[0-9]{7,8}" value= "<?php if(isset($_POST["contactNumber"])) echo $_POST["contactNumber"]; ?>"/><br>
 				
-				<input type = "text" id = "autocomplete" name = "autocomplete" onFocus = "geolocate()" placeholder = "Please Enter Address Here..." value= "<?php if(isset($_POST["autocomplete"])) echo $_POST["autocomplete"]; ?>"/>
-				<!--<input id="street_number" disabled="true" placeholder="Street address">-->
-				<input type = "text" id = "apartmentUnit" name = "apartmentUnit" placeholder = "Apartment, Unit, Suite, or Floor(Optional)" value= "<?php if(isset($_POST["apartmentUnit"])) echo $_POST["apartmentUnit"]; ?>">		 
-				<!--<input class="form-control" id="route" disabled="true" placeholder="Route">-->
-				<input type = "text" id = "locality" name = "locality" placeholder="City" value= "<?php if(isset($_POST["locality"])) echo $_POST["locality"]; ?>">
+				<label for = "autocomplete">Address</label>
+				<input type = "text" id = "autocomplete" name = "autocomplete" onFocus = "geolocate()" placeholder = "Please Enter Address Here..." value= "<?php if(isset($_POST["autocomplete"])) echo $_POST["autocomplete"]; ?>"/><br>
 				
-				<input type = "text" id = "administrative_area_level_1" name = "administrative_area_level_1" placeholder="State" value= "<?php if(isset($_POST["administrative_area_level_1"])) echo $_POST["administrative_area_level_1"]; ?>">
+				<label for = "apartmentUnit">Apartment, Unit, Suite, or Floor(Optional)</label>
+				<input type = "text" id = "apartmentUnit" name = "apartmentUnit" placeholder = "Apartment, Unit, Suite, or Floor(Optional)" value= "<?php if(isset($_POST["apartmentUnit"])) echo $_POST["apartmentUnit"]; ?>"><br>	 
 				
-				<input type = "text" id = "postal_code" name = "postal_code" placeholder="ZIP Code / Postal Code" value= "<?php if(isset($_POST["postal_code"])) echo $_POST["postal_code"]; ?>">
+				<label for = "locality">City</label>
+				<input type = "text" id = "locality" name = "locality" placeholder="City" value= "<?php if(isset($_POST["locality"])) echo $_POST["locality"]; ?>"><br>
 				
-				<input type = "text" id = "country" name = "country" placeholder="Country" value= "<?php if(isset($_POST["country"])) echo $_POST["country"]; ?>">
+				<label for = "administrative_area_level_1">State</label>
+				<input type = "text" id = "administrative_area_level_1" name = "administrative_area_level_1" placeholder="State" value= "<?php if(isset($_POST["administrative_area_level_1"])) echo $_POST["administrative_area_level_1"]; ?>"><br>
 				
-				<input type = "password" id = "password" name = "password" placeholder = "Password"  value= "<?php if(isset($_POST["password"])) echo $_POST["password"]; ?>"/>
+				<label for = "postal_code">ZIP Code / Postal Code</label>
+				<input type = "text" id = "postal_code" name = "postal_code" placeholder="ZIP Code / Postal Code" value= "<?php if(isset($_POST["postal_code"])) echo $_POST["postal_code"]; ?>"><br>
+				
+				<label for = "country">Country</label>
+				<input type = "text" id = "country" name = "country" placeholder="Country" value= "<?php if(isset($_POST["country"])) echo $_POST["country"]; ?>"><br>
+				
+				<label for = "password">Password</label>
+				<input type = "password" id = "password" name = "password" placeholder = "Password"  value= "<?php if(isset($_POST["password"])) echo $_POST["password"]; ?>"/><br>
+				
+				<label for = "confirmPassword">Confirm Password</label>
 				<input type = "password" id = "confirmPassword" name = "confirmPassword" placeholder = "Confirm Password">
 				
 				<input type = "submit" style = "float:center" value = "REGISTER" name = "submit"/> 	
