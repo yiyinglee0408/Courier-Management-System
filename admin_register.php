@@ -104,67 +104,61 @@
 		//User Register Details
 		if(isset($_POST['submit']))
 		{
-			$fullName =  $_POST['fullName'];
-			$email    =  $_POST['email'];
-			$contactNumber = $_POST['contactNumber'];
-			$autocomplete = $_POST['autocomplete'];
-			$apartmentUnit = $_POST['apartmentUnit'];
-			$locality = $_POST['locality'];
-			$administrative_area_level_1 = $_POST['administrative_area_level_1'];	
-			$postal_code =  $_POST['postal_code'];
-			$country = $_POST['country'];
-			$password =  $_POST['password'];
-			$confirmPassword =  $_POST['confirmPassword'];
+			$adminFullName =  $_POST['adminFullName'];
+			$adminEmail    =  $_POST['adminEmail'];
+			$adminContactNumber = $_POST['adminContactNumber'];
+			$adminPassword =  $_POST['adminPassword'];
+			$adminConfirmPassword =  $_POST['adminConfirmPassword'];
 			
 			//$uppercase    = preg_match('@[A-Z]@', $password);
 			//$lowercase    = preg_match('@[a-z]@', $password);
 			//$number       = preg_match('@[0-9]@', $password);
 			//$specialChars = preg_match('@[^\w]@', $password);
 			
-			$fullName = mysqli_real_escape_string($combine, $fullName);
-			$email = mysqli_real_escape_string($combine, $email);
-			$password = mysqli_real_escape_string($combine, $password);
-			$password = $password;
+			$adminFullName = mysqli_real_escape_string($combine, $adminFullName);
+			$adminEmail = mysqli_real_escape_string($combine, $adminEmail);
+			$adminPassword = mysqli_real_escape_string($combine, $adminPassword);
+			$adminPassword = $adminPassword;
 			
 			//Register Form Validation
-			if(empty($fullName) || empty($email) || empty($contactNumber) || empty($autocomplete) || empty($locality) || empty($administrative_area_level_1) || empty($postal_code) || empty($country) || empty($password) || empty($confirmPassword))
+			if(empty($adminFullName) || empty($adminEmail) || empty($adminContactNumber) || empty($adminPassword) || empty($adminConfirmPassword))
 			{
 				echo"<script>alert('Please do not let the field empty!')</script>";
 			}
-			elseif (!filter_var($email, FILTER_VALIDATE_EMAIL))
+			elseif (!filter_var($adminEmail, FILTER_VALIDATE_EMAIL))
 			{
 				echo"<script>alert('Please enter a valid email!')</script>";
 			}
-			elseif (strlen($password) <='8' || strlen($password) >'16' || !preg_match("#[0-9]+#",$password) || !preg_match("#[A-Z]+#",$password) || !preg_match("#[a-z]+#",$password) || !preg_match("#[^\w]+#",$password)) 
+			elseif (strlen($adminPassword) <='8' || strlen($adminPassword) >'16' || !preg_match("#[0-9]+#",$adminPassword) || !preg_match("#[A-Z]+#",$adminPassword) || !preg_match("#[a-z]+#",$adminPassword) || !preg_match("#[^\w]+#",$adminPassword)) 
 			{
 				echo "<script>alert('Password should contain one uppercase letter,one lowercase letter,one number,one special character and length could not less than 8 or lonnger than 16 character')</script>";
 			}
-			elseif($_POST['password'] != $_POST['confirmPassword'])
+			elseif($_POST['adminPassword'] != $_POST['adminConfirmPassword'])
 			{
 				echo"<script>alert('Password and Confirm Password are not match!')</script>";
 			}
 			else
 			{
-				//Check from database to make sure a user does not exist with the same username
-				$sql="SELECT email FROM user WHERE email='$email'";
+				//Check from database to make sure a user does not exist with the same email
+				$sql="SELECT adminEmail FROM admin WHERE adminEmail='$adminEmail'";
 				$result=mysqli_query($combine,$sql);
 				$row=mysqli_fetch_array($result, MYSQLI_ASSOC);
 				if(mysqli_num_rows($result)== 1)
 				{
 					//message when data had record in database
-					echo "<script>alert('Sorry... This username had already used. Please try another.');
-						window.location='register.php'</script>";
+					echo "<script>alert('Sorry... This email had already used. Please try another.');
+						window.location='admin_register.php'</script>";
 				}
 					//store new record
-				else if(isset($_POST['username']) && isset($_POST['email']) && isset($_POST['password']))
+				else if(isset($_POST['adminFullName']) && isset($_POST['adminEmail']) && isset($_POST['adminPassword']))
 				{
 					//success store data and display message
-					$query = mysqli_query($combine, "INSERT INTO user
-					(username, email, contactNumber, password, autocomplete, apartmentUnit, locality, administrative_area_level_1, postal_code, country) VALUES
-					('$username', '$email', '$contactNumber', '$password', '$autocomplete', '$apartmentUnit', '$locality', '$administrative_area_level_1', '$postal_code', '$country')");
+					$query = mysqli_query($combine, "INSERT INTO admin
+					(adminFullName, adminEmail, adminContactNumber, adminPassword) VALUES
+					('$adminFullName', '$adminEmail', '$adminContactNumber', '$adminPassword')");
 					if ($query)
 					{
-						$_SESSION['username'] = $username;
+						$_SESSION['adminFullName'] = $adminFullName;
 						//$_SESSION['success'] = "You are now logged in";
 						echo "<script>alert('Your account had been success key in.');
 						window.location='admin_login.php'</script>";
@@ -183,10 +177,10 @@
 		<div class = "container">
 			
 			<div class = "image">
-				<img src = "image/register.jpg" alt = "User Register">
+				<img src = "image/register.jpg" alt = "Admin Register">
 			</div>
 			
-			<form method = "POST" action ="register.php" class = "form">
+			<form method = "POST" action ="admin_register.php" class = "form">
 				<h1 style="text-transform:uppercase; text-align:center">Admin Register</h1>
 				
 				<label for = "fullName">Full Name</label>
