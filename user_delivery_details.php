@@ -19,11 +19,11 @@
 			
 			.container
 			{
-				height:2935px;
+				height:2953px;
 				width:1350px;
 				margin:auto;
 				margin-top: 75px;
-				margin-bottom:75px;
+				margin-bottom:5px;
 				border-style: solid;
 				border-color: #E9ECEF;
 			}
@@ -139,7 +139,9 @@
 			//$parcelWeight = mysqli_real_escape_string($combine, $parcelWeight);
 			$collectionDate = mysqli_real_escape_string($combine, $collectionDate);
 			$parcelContent = mysqli_real_escape_string($combine, $parcelContent);
-			$parcelValue = mysqli_real_escape_string($combine, $parcelValue);			
+			$parcelValue = mysqli_real_escape_string($combine, $parcelValue);
+			
+			$trackingNumber = rand(1000000000,9999999999);			
 			
 			if(empty($receiverFullName) || empty($receiverEmail) || empty($receiverContactNumber) || empty($receiverAddress) || empty($receiverApartmentUnit) || empty($receiverCity) || empty($receiverState) || empty($receiverPostalCode) || empty($receiverCountry) || empty($collectionDate) || empty($parcelContent) || empty($parcelValue))
 			{
@@ -158,13 +160,13 @@
 				//Check from database to make sure a user does not exist with the same email
 				//success store data and display message
 				$query = mysqli_query($combine, "INSERT INTO user_delivery_details
-				(userID, fullName, email, contactNumber, autocomplete, apartmentUnit, locality, administrative_area_level_1, postal_code, country, receiverFullName, receiverEmail, receiverContactNumber, receiverAddress, receiverApartmentUnit, receiverCity, receiverState, receiverPostalCode, receiverCountry, addReceiverFullName, addReceiverEmail, addReceiverContactNumber, parcelWeight, collectionDate, parcelContent, parcelValue) VALUES
-				('$userID','$fullName', '$email', '$contactNumber', '$autocomplete', '$apartmentUnit', '$locality', '$administrative_area_level_1', '$postal_code', '$country', '$receiverFullName', '$receiverEmail', '$receiverContactNumber', '$receiverAddress', '$receiverApartmentUnit', '$receiverCity', '$receiverState', '$receiverPostalCode', '$receiverCountry', '$addReceiverFullName', '$addReceiverEmail', '$addReceiverContactNumber', '$parcelWeight', '$collectionDate', '$parcelContent', '$parcelValue')");
+				(userID, fullName, trackingNumber, email, contactNumber, autocomplete, apartmentUnit, locality, administrative_area_level_1, postal_code, country, receiverFullName, receiverEmail, receiverContactNumber, receiverAddress, receiverApartmentUnit, receiverCity, receiverState, receiverPostalCode, receiverCountry, addReceiverFullName, addReceiverEmail, addReceiverContactNumber, parcelWeight, collectionDate, parcelContent, parcelValue) VALUES
+				('$userID','$fullName', '$trackingNumber', '$email', '$contactNumber', '$autocomplete', '$apartmentUnit', '$locality', '$administrative_area_level_1', '$postal_code', '$country', '$receiverFullName', '$receiverEmail', '$receiverContactNumber', '$receiverAddress', '$receiverApartmentUnit', '$receiverCity', '$receiverState', '$receiverPostalCode', '$receiverCountry', '$addReceiverFullName', '$addReceiverEmail', '$addReceiverContactNumber', '$parcelWeight', '$collectionDate', '$parcelContent', '$parcelValue')");
 				if ($query)
 				{
 					//$_SESSION['success'] = "You are now logged in";
-					echo "<script>alert('Your delivery details had been success key in.');
-					window.location='user_delivery_details.php'</script>";
+					echo "<script>alert('Your delivery details had been success key in and your parcel tracking number is $trackingNumber.');
+					window.location='tracking_number.php'</script>";
 				}
 				else
 				{
@@ -271,6 +273,10 @@
 			</form>
 		
 		</div>
+		
+		<?php
+			include('footer.php');
+		?>
 		
 		<!--<input type = "checkbox" id = "addReceiverDetails" name = "addReceiverDetails" value = "Additional Receiver Details" onclick = "enableFields()">
 		<label for = "addReceiverDetails">Do you want to add additional receiver details?</label>
