@@ -15,7 +15,7 @@
 			
 			body
 			{
-				background:url("image/registerBackground.jpeg");
+				background:url("image/adminBackground.jpeg");
 			}
 			
 			a

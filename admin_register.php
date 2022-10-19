@@ -15,7 +15,9 @@
 			
 			body
 			{
-				background:url("image/registerBackground.jpeg");
+				background:url("image/adminBackground.jpeg");
+				background-repeat: no-repeat;
+				background-size: 200%;
 			}
 			
 			a
