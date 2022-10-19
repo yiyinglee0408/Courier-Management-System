@@ -20,10 +20,11 @@
 			.container
 			{
 				height:2953px;
-				width:1350px;
+				width:1050px;
 				margin:auto;
-				margin-top: 75px;
+				margin-top:25px;
 				margin-bottom:5px;
+				margin-left:340px;
 				border-style: solid;
 				border-color: #E9ECEF;
 			}
@@ -178,8 +179,13 @@
 		}
 	?>
 	
-	<body>
+	<?php
+		include('user_sidebar.php');
+	?>
 	
+	<body>
+		<h1>New Parcel</h1>
+		
 		<div class = "container">
 			
 			<form method = "POST" action = "user_delivery_details.php" class = "form">
@@ -274,9 +280,7 @@
 		
 		</div>
 		
-		<?php
-			include('footer.php');
-		?>
+		
 		
 		<!--<input type = "checkbox" id = "addReceiverDetails" name = "addReceiverDetails" value = "Additional Receiver Details" onclick = "enableFields()">
 		<label for = "addReceiverDetails">Do you want to add additional receiver details?</label>
