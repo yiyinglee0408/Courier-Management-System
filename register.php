@@ -16,6 +16,8 @@
 			body
 			{
 				background:url("image/registerBackground.jpeg");
+				background-repeat: no-repeat;
+				background-size: 200%;
 			}
 			
 			a
@@ -43,7 +45,7 @@
 				display:flex;
 				flex-direction:column;
 				width: 50%;
-				padding-left:45px;
+				padding-left:50px;
 				background-color:white;
 			}
 			
@@ -95,11 +97,6 @@
 				width:550px;
 				height:1270px;
 			}
-			
-			label
-			{
-				text-align: left;
-			}
 		</style>
 	</head>
 	
@@ -149,26 +146,26 @@
 			}
 			else
 			{
-				//Check from database to make sure a user does not exist with the same username
+				//Check from database to make sure a user does not exist with the same email
 				$sql="SELECT email FROM user WHERE email='$email'";
 				$result=mysqli_query($combine,$sql);
 				$row=mysqli_fetch_array($result, MYSQLI_ASSOC);
 				if(mysqli_num_rows($result)== 1)
 				{
 					//message when data had record in database
-					echo "<script>alert('Sorry... This username had already used. Please try another.');
+					echo "<script>alert('Sorry... This email had already used. Please try another.');
 						window.location='register.php'</script>";
 				}
 					//store new record
-				else if(isset($_POST['username']) && isset($_POST['email']) && isset($_POST['password']))
+				else if(isset($_POST['fullName']) && isset($_POST['email']) && isset($_POST['password']))
 				{
 					//success store data and display message
 					$query = mysqli_query($combine, "INSERT INTO user
-					(username, email, contactNumber, password, autocomplete, apartmentUnit, locality, administrative_area_level_1, postal_code, country) VALUES
-					('$username', '$email', '$contactNumber', '$password', '$autocomplete', '$apartmentUnit', '$locality', '$administrative_area_level_1', '$postal_code', '$country')");
+					(fullName, email, contactNumber, password, autocomplete, apartmentUnit, locality, administrative_area_level_1, postal_code, country) VALUES
+					('$fullName', '$email', '$contactNumber', '$password', '$autocomplete', '$apartmentUnit', '$locality', '$administrative_area_level_1', '$postal_code', '$country')");
 					if ($query)
 					{
-						$_SESSION['username'] = $username;
+						$_SESSION['fullName'] = $fullName;
 						//$_SESSION['success'] = "You are now logged in";
 						echo "<script>alert('Your account had been success key in.');
 						window.location='login.php'</script>";
