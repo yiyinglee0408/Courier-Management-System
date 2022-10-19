@@ -65,6 +65,41 @@
 	<?php
 		include("courier_management_system.php");
 		session_start();
+		
+		if(isset($_POST['ChangePassword']))
+		{
+			$email=$_POST['email'];
+			$NewPassword=$_POST['NewPassword'];
+			$CNewPassword=$_POST['CNewPassword'];
+			
+			if(empty($email) || empty($NewPassword) || empty($CNewPassword))
+			{
+				echo"<script>alert('Please do not let the field empty !')</script>";
+			}
+			elseif (strlen($NewPassword) <='8' || strlen($NewPassword) >'16' || !preg_match("#[0-9]+#",$NewPassword) || !preg_match("#[A-Z]+#",$NewPassword) || !preg_match("#[a-z]+#",$NewPassword) || !preg_match("#[^\w]+#",$NewPassword)) 
+			{
+				echo "<script>alert('Password should contain one uppercase letter,one lowercase letter,one number,one special character and length could not less than 8 or lonnger than 16 character')</script>";
+			}
+			elseif($_POST['NewPassword'] != $_POST['CNewPassword'])
+			{
+				echo"<script>alert('Password and Confirm Password are not match!')</script>";
+			}
+			else
+			{
+				$sql="SELECT email FROM user WHERE email='$email'";
+				$result=mysqli_query($combine,$sql);
+				$row=mysqli_fetch_array($result, MYSQLI_ASSOC);
+				if(mysqli_num_rows($result)== 1)
+				{
+					mysqli_query($combine, "UPDATE user set password='" . $_POST["NewPassword"] . "' WHERE email='" . $_POST["email"] . "'");
+					echo"<script>alert('Password change successfully.');
+					window.location='login.php'</script>";
+				}
+				else{
+					echo"<script>alert('Your email not found.')</script>";
+				}
+			}
+		}
 	?>
 	
 	<body>
@@ -79,10 +114,10 @@
 				<center><input type = "email" id = "email" name = "email" placeholder = "Email" value= "<?php if(isset($_POST["email"])) echo $_POST["email"]; ?>"></center><br><br>
 				
 				<label for = "password" style = "padding-left:85px;">New Password</label>
-				<center><input type = "password" id = "password" name = "password" placeholder = "Enter New Password" value= "<?php if(isset($_POST["password"])) echo $_POST["password"]; ?>"></center><br><br>
+				<center><input type = "password" id = "NewPassword" name = "NewPassword" placeholder = "Enter New Password" value= "<?php if(isset($_POST["NewPassword"])) echo $_POST["NewPassword"]; ?>"></center><br><br>
 				
-				<label for = "confirmPassword" style = "padding-left:85px;">Confirm Password</label>
-				<center><input type = "password" id = "confirmPassword" name = "confirmPassword" placeholder = "Confirm Password"></center><br>
+				<label for = "confirmPassword" style = "padding-left:85px;">Confirm New Password</label>
+				<center><input type = "password" id = "CNewPassword" name = "CNewPassword" placeholder = "Confirm New Password"></center><br>
 			
 				<center><input type="submit" style="float:center;" value='SUBMIT' name="ChangePassword"/><center>
 			
