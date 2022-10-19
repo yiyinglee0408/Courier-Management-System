@@ -105,10 +105,10 @@
 		session_start();
 		if(isset($_POST['submit']))
 		{
-			$fullName = mysqli_real_escape_string($combine, $_POST['fullName']);
+			$adminFullName = mysqli_real_escape_string($combine, $_POST['adminFullName']);
 			$adminEmail = mysqli_real_escape_string($combine, $_POST['adminEmail']);
 			$adminPassword = mysqli_real_escape_string($combine, $_POST['adminPassword']);
-			$fullName = stripslashes($_POST['fullName']);
+			$adminFullName = stripslashes($_POST['adminFullName']);
 			$adminEmail = stripslashes($_POST['adminEmail']);
 			$adminPassword = stripslashes($_POST['adminPassword']);
 			$valid = true;
@@ -120,13 +120,13 @@
 			else if($valid)
 			{
 				//validation if the admin email had been record in database
-				$sql="SELECT * FROM user WHERE adminEmail='$adminEmail' AND adminPassword='$adminPassword' ";
+				$sql="SELECT * FROM admin WHERE adminEmail='$adminEmail' AND adminPassword='$adminPassword' ";
 				$result=mysqli_query($combine,$sql);
 				$row=mysqli_fetch_array($result);
 				$adminID = $row['adminID'];
 				if(mysqli_num_rows($result)== 1)
 				{
-					$_SESSION['fullName'] = $fullName;
+					$_SESSION['adminFullName'] = $adminFullName;
 					$_SESSION['adminEmail'] = $adminEmail;
 					$_SESSION['adminID'] = $adminID;
 					echo "<script>alert('You are now logged in.');
@@ -135,7 +135,7 @@
 				
 				}else {
 					echo "<script>alert('Wrong email/password combination.');
-					window.location='login.php'</script>";
+					window.location='admin_login.php'</script>";
 					return false;
 				}
 				
@@ -147,7 +147,7 @@
 		
 		<div class = "container">
 		
-			<form method = "POST" action ="login.php" class = "form">
+			<form method = "POST" action ="admin_login.php" class = "form">
 			
 				<h1 style="text-transform:uppercase; text-align:center">Admin Login</h1>
 				
@@ -165,7 +165,7 @@
 			</form>
 			
 			<div class = "image">
-				<img src = "image/login3.jpg" alt = "User Login">
+				<img src = "image/login3.jpg" alt = "Admin Login">
 			</div>	
 		</div>
 	</body>
