@@ -19,11 +19,11 @@
 			
 			.container
 			{
-				height:2953px;
+				height:2556px;
 				width:1050px;
 				margin:auto;
 				margin-top:25px;
-				margin-bottom:5px;
+				margin-bottom:80px;
 				margin-left:340px;
 				border-style: solid;
 				border-color: #E9ECEF;
@@ -48,7 +48,7 @@
 			
 			input[type=text],input[type=tel],input[type=date]
 			{
-				width:95%;
+				width:94%;
 				border:none;
 				border-bottom:2px solid black;
 				padding:12px 20px;
@@ -114,11 +114,7 @@
 			$receiverState = $_POST['receiverState'];	
 			$receiverPostalCode =  $_POST['receiverPostalCode'];
 			$receiverCountry = $_POST['receiverCountry'];
-			$addReceiverFullName =  $_POST['addReceiverFullName'];
-			$addReceiverEmail =  $_POST['addReceiverEmail'];
-			$addReceiverContactNumber = $_POST['addReceiverContactNumber'];
 			$parcelWeight = $_POST['parcelWeight'];
-			$collectionDate = $_POST['collectionDate'];
 			$parcelContent = $_POST['parcelContent'];
 			$parcelValue = $_POST['parcelValue'];
 			
@@ -131,20 +127,17 @@
 			$receiverState = mysqli_real_escape_string($combine, $receiverState);
 			$receiverPostalCode = mysqli_real_escape_string($combine, $receiverPostalCode);
 			$receiverCountry = mysqli_real_escape_string($combine, $receiverCountry);
-			$addReceiverFullName = mysqli_real_escape_string($combine, $addReceiverFullName);
-			$addReceiverEmail = mysqli_real_escape_string($combine, $addReceiverEmail);
-			$addReceiverContactNumber = mysqli_real_escape_string($combine, $addReceiverContactNumber);
 			//$parcelLength = mysqli_real_escape_string($combine, $parcelLength);
 			//$parcelWidth = mysqli_real_escape_string($combine, $parcelWidth);
 			//$parcelHeight = mysqli_real_escape_string($combine, $parcelHeight);
 			//$parcelWeight = mysqli_real_escape_string($combine, $parcelWeight);
-			$collectionDate = mysqli_real_escape_string($combine, $collectionDate);
 			$parcelContent = mysqli_real_escape_string($combine, $parcelContent);
 			$parcelValue = mysqli_real_escape_string($combine, $parcelValue);
 			
-			$trackingNumber = rand(1000000000,9999999999);			
+			$trackingNumber = rand(1000000000,9999999999);	
+			$parcelStatus = "Item Accepted by Courier";
 			
-			if(empty($receiverFullName) || empty($receiverEmail) || empty($receiverContactNumber) || empty($receiverAddress) || empty($receiverApartmentUnit) || empty($receiverCity) || empty($receiverState) || empty($receiverPostalCode) || empty($receiverCountry) || empty($collectionDate) || empty($parcelContent) || empty($parcelValue))
+			if(empty($receiverFullName) || empty($receiverEmail) || empty($receiverContactNumber) || empty($receiverAddress) || empty($receiverApartmentUnit) || empty($receiverCity) || empty($receiverState) || empty($receiverPostalCode) || empty($receiverCountry) || empty($parcelContent) || empty($parcelValue))
 			{
 				echo"<script>alert('Please do not let the field empty!')</script>";
 			}
@@ -161,13 +154,13 @@
 				//Check from database to make sure a user does not exist with the same email
 				//success store data and display message
 				$query = mysqli_query($combine, "INSERT INTO user_delivery_details
-				(userID, fullName, trackingNumber, email, contactNumber, autocomplete, apartmentUnit, locality, administrative_area_level_1, postal_code, country, receiverFullName, receiverEmail, receiverContactNumber, receiverAddress, receiverApartmentUnit, receiverCity, receiverState, receiverPostalCode, receiverCountry, addReceiverFullName, addReceiverEmail, addReceiverContactNumber, parcelWeight, collectionDate, parcelContent, parcelValue) VALUES
-				('$userID','$fullName', '$trackingNumber', '$email', '$contactNumber', '$autocomplete', '$apartmentUnit', '$locality', '$administrative_area_level_1', '$postal_code', '$country', '$receiverFullName', '$receiverEmail', '$receiverContactNumber', '$receiverAddress', '$receiverApartmentUnit', '$receiverCity', '$receiverState', '$receiverPostalCode', '$receiverCountry', '$addReceiverFullName', '$addReceiverEmail', '$addReceiverContactNumber', '$parcelWeight', '$collectionDate', '$parcelContent', '$parcelValue')");
+				(userID, fullName, trackingNumber, email, contactNumber, autocomplete, apartmentUnit, locality, administrative_area_level_1, postal_code, country, receiverFullName, receiverEmail, receiverContactNumber, receiverAddress, receiverApartmentUnit, receiverCity, receiverState, receiverPostalCode, receiverCountry, parcelWeight, parcelContent, parcelValue ,parcelStatus) VALUES
+				('$userID','$fullName', '$trackingNumber', '$email', '$contactNumber', '$autocomplete', '$apartmentUnit', '$locality', '$administrative_area_level_1', '$postal_code', '$country', '$receiverFullName', '$receiverEmail', '$receiverContactNumber', '$receiverAddress', '$receiverApartmentUnit', '$receiverCity', '$receiverState', '$receiverPostalCode', '$receiverCountry','$parcelWeight', '$parcelContent', '$parcelValue', '$parcelStatus')");
 				if ($query)
 				{
 					//$_SESSION['success'] = "You are now logged in";
 					echo "<script>alert('Your delivery details had been success key in and your parcel tracking number is $trackingNumber.');
-					window.location='tracking_number.php'</script>";
+					window.location='payment.php'</script>";
 				}
 				else
 				{
@@ -248,24 +241,10 @@
 				<label for = "receiverCountry">Country</label>
 				<input type = "text" id = "receiverCountry" name = "receiverCountry" placeholder="Country" value= "<?php if(isset($_POST["receiverCountry"])) echo $_POST["receiverCountry"]; ?>"><br/><br/>
 				
-				<h3 style = "color:#21618C">Additional Receiver Details (Optional)</h3><br/>
-			
-				<label for = "addReceiverFullName">Full Name</label>
-				<input type = "text" id = "addReceiverFullName" name = "addReceiverFullName" placeholder = "Full Name" value= "<?php if(isset($_POST["addReceiverFullName"])) echo $_POST["addReceiverFullName"]; ?>"/><br/><br/>
-				
-				<label for = "addReceiverEmail">Email</label><br>
-				<input type = "text" id = "addReceiverEmail" name = "addReceiverEmail" placeholder = "Email" pattern = "[a-zA-Z0-9]+@(gmail|yahoo|outlook)\.com" value= "<?php if(isset($_POST["addReceiverEmail"])) echo $_POST["addReceiverEmail"]; ?>"/><br/><br/>
-				
-				<label for = "addReceiverContactNumber">Contact Number</label>
-				<input type = "tel" id = "addReceiverContactNumber" name = "addReceiverContactNumber" placeholder = "Contact Number" pattern = "[0-9]{3}-[0-9]{7,8}" value= "<?php if(isset($_POST["addReceiverContactNumber"])) echo $_POST["addReceiverContactNumber"]; ?>"/><br/><br/>
-				
 				<h3 style = "color:#21618C">Shipment Details</h3><br/>
 				
 				<label for = "quantity">Parcel Weight(kg)</label><br/>
 				<input type="text" id="parcelWeight" name="parcelWeight" placeholder = "Eg:1kg" value= "<?php if(isset($_POST["parcelWeight"])) echo $_POST["parcelWeight"]; ?>"><br><br>
-				
-				<label for = "collectionDate">Parcel Collection Date</label><br>
-				<input type = "date" id = "collectionDate" name = "collectionDate"><br><br>
 				
 				<label for = "parcelContent">Parcel Content</label><br>
 				<input type = "text" id = "parcelContent" name = "parcelContent" placeholder = "Eg:Book"><br><br>
