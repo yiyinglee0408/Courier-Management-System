@@ -70,14 +70,27 @@
 			{
 				background-color:#5499C7;
 			}
+			
+			table
+			{
+				border-collapse: collapse;
+				width:1050px;
+				margin-left:340px;
+				margin-top:20px;
+			}
+			
+			table,td, th 
+			{
+			  border: 1px solid #dddddd;
+			  text-align: left;
+			  padding: 15px;
+			  background-color:white;
+			}
 		
 		</style>
 	</head>
 	
 	<?php
-		include("courier_management_system.php");
-		session_start();
-		
 		include('user_sidebar.php');
 	?>
 	
@@ -100,17 +113,69 @@
 			
 		</div>
 		
-		<table>
-			<tr>
-				<th>Tracking Number</th>
-			</tr>
-			
-			<tr>
-				<td><?php echo $row['trackingNumber']; ?></td>
-			</tr>
-		<table>
+		<?php
+			include("courier_management_system.php");
+			session_start();
 		
-		https://stackoverflow.com/questions/49346255/i-want-my-button-to-change-the-status-set-but-instead-of-changing-it-goes-to-a
+			if(isset($_POST['submitted']))
+			{
+				$trackingNumber = $_POST['trackingNumber'];
+				$sql="SELECT * FROM user_delivery_details WHERE user_delivery_details.trackingNumber = '$trackingNumber'";
+				$result=mysqli_query($combine,$sql);
+				$count = mysqli_num_rows($result);
+				
+				if($count > 0)
+				{
+					while($row = mysqli_fetch_array($result))
+					{
+		?>
+						<h3 style = "margin-top:25px; margin-left:340px; padding-top:22px;">Tracking Number : <font color = "#21618C"><?php echo $trackingNumber; ?></font></h3>
+						
+						<?php
+							$trackingID = $row['trackingID'];
+							$sql="SELECT * FROM parceltracking WHERE trackingID = '$trackingID'";
+							$result=mysqli_query($combine,$sql);
+							$row = mysqli_num_rows($result);
+							
+							if($row > 0)
+							{	
+						?>
+								<table>
+									<tr>
+										<th>Date / Time </th>
+										<th>Status </th>
+									</tr>
+									<?php 
+										while ($row=mysqli_fetch_array($ret)) 
+										{ ?>
+											<tr>
+												<td><?php echo $row['statusDate']?></td>
+												<td><?php echo $row['parcelStatus']?></td>
+											</tr>
+									<?php
+										}
+									?>
+								<table>
+						<?php		
+							}
+							else
+							{
+								echo"<script>alert('No tracking record!')</script>";
+							}
+						?>	
+				<?php	
+					}
+				?>	
+			<?php
+				}
+				else
+				{
+					echo"<script>alert('Invalid tracking number!')</script>";
+				}
+			?>
+		<?php		
+			}
+		?>
 	
 	</body>
 	
