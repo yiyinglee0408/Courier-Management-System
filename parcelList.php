@@ -11,6 +11,7 @@
 			{
 				margin:0;
 				padding:0;
+				box-sizing:border-box;
 			}
 			
 			body
@@ -21,8 +22,8 @@
 			table
 			{
 				border-collapse: collapse;
-				width:1050px;
-				margin-left:340px;
+				width:1080px;
+				margin-left:330px;
 				margin-top:20px;
 			}
 			
@@ -41,14 +42,38 @@
                 font-size: 13px; 
 			}
 			
+			button
+			{
+				width:45%;
+				background-color:#5499C7;
+				color:white;
+				border:none;
+				padding:10px;
+				font-size:18px;
+			}
+			
+			button:hover
+			{
+				background-color:#2874A6;
+			}
+			
+			button a i
+			{
+				color :white;
+			}
+			
 		</style>
+		
+		<!--Boxicons CDN Link-->
+		<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
 	</head>
 	
 	<?php
 		include("courier_management_system.php");
 		session_start();
-		
+
 		//Select database from user_delivery_details	
 		$sql = "SELECT * FROM user_delivery_details";
 		$result = mysqli_query($combine,$sql);
@@ -58,15 +83,14 @@
 		include('admin_sidebar.php');
 	?>
 	
-		<h1 style = "color:#21618C; margin-left:340px; padding-top:22px;">Track Parcel</h1><br/>
+		<h1 style = "color:#21618C; margin-left:330px; padding-top:22px;">Parcel List</h1><br/>
 		<table>
 			<tr>
 				<th>No.</th>
 				<th>Tracking Number</th>
 				<th>Sender Name</th>
 				<th>Recipient Name</th>
-				<th>Status</th>
-				<th>Update Satus</th>
+				<th>Current Status</th>
 				<th>Action</th>
 			</tr>
 		
@@ -80,73 +104,21 @@
 				<td><?php echo $row['receiverFullName'] ?></td>
 				<td>
 					<?php
-						if($row['parcelStatus'] == 1)
+						if($row['parcelStatus'] == '0')
 						{
-							echo "Item Accepted by Courier";
+							echo "Parcel haven't pick up";
 						}
-						elseif($row['parcelStatus'] == 2)
+						else
 						{
-							echo "Parcel Collected";
-						}
-						elseif($row['parcelStatus'] == 3)
-						{
-							echo "Enroute to Hub";
-						}
-						elseif($row['parcelStatus'] == 4)
-						{
-							echo "Arrived at Hub";
-						}
-						elseif($row['parcelStatus'] == 5)
-						{
-							echo "Out for Delivery";
-						}
-						elseif($row['parcelStatus'] == 6)
-						{
-							echo "Delivered";
-						}
-						elseif($row['parcelStatus'] == 7)
-						{
-							echo "Delivery Failed";
-						}
-						elseif($row['parcelStatus'] == 8)
-						{
-							echo "Pickup Failed";
-						}
-						elseif($row['parcelStatus'] == 9)
-						{
-							echo "Returned to Hub";
+							echo $row['parcelStatus'];
 						}
 					?>
 				</td>
-				<?php
-					 //Get Update id and status  
-					 if (isset($_GET['deliveryID']) && isset($_GET['parcelStatus'])) 
-					 {  
-						  $deliveryID=$_GET['deliveryID'];  
-						  $parcelStatus=$_GET['parcelStatus'];  
-						  mysqli_query($combine,"update user_delivery_details set parcelStatus='$parcelStatus' where deliveryID='$deliveryID'");  
-						  header("location:parcelList.php");  
-						  die();  
-					 }  
-				?>
-				<td>
 				
-					<select onchange="statusUpdate(this.options[this.selectedIndex].value, '<?php echo $row['deliveryID'] ?>')">
-						<option value="1">Item Accepted by Courier</option>
-						<option value="2">Parcel Collected</option>
-						<option value="3">Enroute to Hub</option>
-						<option value="4">Arrived at Hub</option>
-						<option value="5">Out for Delivery</option>
-						<option value="6">Delivered</option>
-						<option value="7">Delivery Failed</option>
-						<option value="8">Pickup Failed</option>
-						<option value="9">Returned to Hub</option>
-					</select>
-				</td>
 				<td>
-					<a href = "viewParcelDetail.php">VIEW</a>
-					<a href = "deleteParcel.php">DELETE</a>
-					<br><br>
+					<?php 
+						echo "<button><a href = 'viewDetail.php?updateID=".$row['deliveryID']."'><i class='bx bx-show' ></i></a></button>";
+					?>
 				</td>
 			</tr>
 			<?php
