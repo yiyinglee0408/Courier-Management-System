@@ -120,7 +120,7 @@
 			if(isset($_POST['submitted']))
 			{
 				$trackingNumber = $_POST['trackingNumber'];
-				$sql="SELECT * FROM user_delivery_details WHERE user_delivery_details.trackingNumber = '$trackingNumber'";
+				$sql="SELECT user_delivery_details.deliveryID as deliveryID FROM user_delivery_details WHERE user_delivery_details.trackingNumber = '$trackingNumber'";
 				$result=mysqli_query($combine,$sql);
 				$count = mysqli_num_rows($result);
 				
@@ -132,8 +132,8 @@
 						<h3 style = "margin-top:25px; margin-left:340px; padding-top:22px;">Tracking Number : <font color = "#21618C"><?php echo $trackingNumber; ?></font></h3>
 						
 						<?php
-							$trackingID = $row['trackingID'];
-							$sql="SELECT * FROM parceltracking WHERE trackingID = '$trackingID'";
+							$deliveryID = $row['deliveryID'];
+							$sql="SELECT * FROM parceltracking WHERE deliveryID = '$deliveryID'";
 							$result=mysqli_query($combine,$sql);
 							$row = mysqli_num_rows($result);
 							
@@ -146,11 +146,14 @@
 										<th>Status </th>
 									</tr>
 									<?php 
-										while ($row=mysqli_fetch_array($ret)) 
+										while ($row=mysqli_fetch_array($result)) 
 										{ ?>
 											<tr>
 												<td><?php echo $row['statusDate']?></td>
-												<td><?php echo $row['parcelStatus']?></td>
+												<td>
+													<?php echo $row['parcelStatus']?>
+												</td>
+												
 											</tr>
 									<?php
 										}
