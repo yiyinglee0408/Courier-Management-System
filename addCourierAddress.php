@@ -75,11 +75,42 @@
 		include("courier_management_system.php");
 		session_start();
 		
-		include('admin_sidebar.php');
+		//include('admin_sidebar.php');
 		
-		//if(isset($_POST['submitted']))
-		//{
-		//}
+		if(isset($_POST['submitted']))
+		{
+			$addressName = $_POST['addressName'];
+			$autocomplete = $_POST['autocomplete'];
+			$lat = $_POST['lat'];
+			$lng = $_POST['lng'];
+			$locality = $_POST['locality'];
+			$administrative_area_level_1 = $_POST['administrative_area_level_1'];	
+			$postal_code =  $_POST['postal_code'];
+			$country = $_POST['country'];
+			
+			if(empty($addressName) || empty($autocomplete) || empty($lat) || empty($lng) || empty($locality) || empty($administrative_area_level_1) || empty($postal_code) || empty($country))
+			{
+				echo"<script>alert('Please do not let the field empty !')</script>";
+			}
+			else
+			{
+				//success store data and display message
+				$query = mysqli_query($combine, "INSERT INTO courieraddress
+				(addressName, autocomplete, lat, lng, locality, administrative_area_level_1, postal_code, country) VALUES
+				('$addressName', '$autocomplete', '$lat', '$lng', '$locality', '$administrative_area_level_1', '$postal_code', '$country')");
+				if ($query)
+				{
+					//$_SESSION['success'] = "You are now logged in";
+					echo "<script>alert('Courier Address had been success key in.');
+					window.location='addCourierAddress.php'</script>";
+				}
+				else
+				{
+					//message invalid input
+					echo"<script>alert('You have no success store record in database')</script>";
+				}
+			}
+		}
 	?>
 	
 	<body>
@@ -96,7 +127,7 @@
 				<label for = "lat">Latitude</label>
 				<input type = "text" id = "lat" name = "lat" placeholder = "Please Enter Address Here..." value= "<?php if(isset($_POST["lat"])) echo $_POST["lat"]; ?>"/><br><br>
 				
-				<label for = "lon">Longitude</label>
+				<label for = "lng">Longitude</label>
 				<input type = "text" id = "lng" name = "lng" placeholder = "Please Enter Address Here..." value= "<?php if(isset($_POST["lon"])) echo $_POST["lon"]; ?>"/><br><br>
 				
 				<label for = "locality">City</label>
