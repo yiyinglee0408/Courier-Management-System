@@ -81,7 +81,7 @@
 				<li><a href="trackParcel.php"><i class='bx bx-search'></i>Track Parcel</a></li>
 				<li><a href="#"><i class='bx bxs-report'></i>Report</a></li>
 				
-				<i class='bx bx-log-out' ></i>
+				<li><a href="user_logout.php"><i class='bx bx-log-out'></i>Logout</a></li>
 			
 			</ul>
 		
