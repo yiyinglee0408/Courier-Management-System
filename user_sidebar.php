@@ -26,7 +26,7 @@
 				transition:all .5s ease;
 			}
 			
-			.sidebar header
+			.sidebar h1
 			{
 				font-size:22px;
 				color:white;
@@ -72,14 +72,13 @@
 	
 		<div class = "sidebar">
 		
-			<header>COURIER</header>
+			<h1>USER PANEL</h1>
 			
 			<ul>
 			
 				<li><a href="#"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
-				<li><a href="#"><i class='bx bxs-user'></i>User</a></li>
 				<li><a href="user_delivery_details.php"><i class='bx bxs-package'></i>Create New Shipment</a></li>
-				<li><a href="#"><i class='bx bx-search'></i>Track Parcel</a></li>
+				<li><a href="trackParcel.php"><i class='bx bx-search'></i>Track Parcel</a></li>
 				<li><a href="#"><i class='bx bxs-report'></i>Report</a></li>
 				
 				<i class='bx bx-log-out' ></i>
