@@ -26,7 +26,7 @@
 				transition:all .5s ease;
 			}
 			
-			.sidebar header
+			.sidebar h1
 			{
 				font-size:22px;
 				color:white;
@@ -69,21 +69,20 @@
 	</head>
 	
 	<body>
-	
+
 		<div class = "sidebar">
 		
-			<header>COURIER</header>
+			<h1>ADMIN PANEL</h1>
 			
 			<ul>
 			
 				<li><a href="#"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
-				<li><a href="#"><i class='bx bxs-user'></i>Admin</a></li>
 				<li><a href="courierAddressList.php"><i class='bx bx-current-location'></i>Courier Address</a></li>
 				<li><a href="parcelList.php"><i class='bx bxs-package'></i>Parcel List</a></li>
 				<li><a href="#"><i class='bx bx-search'></i>Track Parcel</a></li>
 				<li><a href="#"><i class='bx bxs-report'></i>Report</a></li>
 				
-				<i class='bx bx-log-out' ></i>
+				<li><a href="admin_logout.php"><i class='bx bx-log-out'></i>Logout</a></li>
 			
 			</ul>
 		
