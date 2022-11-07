@@ -10,7 +10,6 @@
 			{
 				margin:0;
 				padding:0;
-				box-sizing:border-box;
 			}
 			
 			body
@@ -20,7 +19,7 @@
 			
 			.container
 			{
-				height:739px;
+				height:800px;
 				width: 1050px;
 				margin:auto;
 				margin-top:25px;
@@ -81,6 +80,22 @@
 		//took record base on the userID
 		$userID = $_SESSION['userID'];
 		
+		$trackingNumber=$_GET['trackingNo'];
+		
+		$courierID;
+
+		$sql = "SELECT * FROM user_delivery_details";
+		$result = mysqli_query($combine,$sql);
+		$count = mysqli_num_rows($result);
+		
+		if($userID == '')
+		{
+			header('location:login.php');
+		}
+		
+		include('user_sidebar.php');
+		include('user_header.php');
+		
 		if(isset($_POST['submitted']))
 		{
 			$fullName =  $_POST['fullName'];
@@ -89,16 +104,45 @@
 			$cardNumber =  $_POST['cardNumber'];
 			$validDate =  $_POST['validDate'];
 			$cardCVC =  $_POST['cardCVC'];
+			$totalPrice = $_POST['totalPrice'];
+			$courierID = $_POST['courierID'];
+			
+			$fullName = mysqli_real_escape_string($combine, $fullName);
+			$email = mysqli_real_escape_string($combine, $email);
+			$contactNumber = mysqli_real_escape_string($combine, $contactNumber);
+			$cardNumber = mysqli_real_escape_string($combine, $cardNumber);
+			$validDate = mysqli_real_escape_string($combine, $validDate);
+			$cardCVC = mysqli_real_escape_string($combine, $cardCVC);
+			
+			if(empty($fullName) || empty($email) || empty($contactNumber) || empty($cardNumber) || empty($validDate) || empty($cardCVC))
+			{
+				echo"<script>alert('Please do not let the field empty !')</script>";
+			}
+			elseif (!filter_var($email, FILTER_VALIDATE_EMAIL))
+			{
+				echo"<script>alert('Please enter a valid email!')</script>";
+			}
+			else
+			{
+				$query = mysqli_query($combine, "INSERT INTO payment
+				(userID, courierID, fullName, email, contactNumber, cardNumber, cardCVC, validDate, totalPrice) VALUES
+				('$userID', '$courierID', '$fullName', '$email', '$contactNumber', '$cardNumber', '$cardCVC', '$validDate', '$totalPrice')");
+				if ($query)
+				{
+					//$_SESSION['success'] = "You are now logged in";
+					echo "<script>alert('You have been payment successfully');
+					window.location='user_delivery_details.php'</script>";
+				}
+				else
+				{
+					//message invalid input
+					echo"<script>alert('You have no success store record in database')</script>";
+				}
+			}
 		}
 	?>
 	
-	<?php
-		include('user_sidebar.php');
-	?>
-	
 	<body>
-	
-		<h1>Payment</h1>
 	
 		<div class = "container">
 		
@@ -123,7 +167,44 @@
 				
 				<label for = "cardCVC">CVV / CVC</label>
 				<input type = "password" id = "cardCVC" name = "cardCVC" placeholder = "E.g.123" value= "<?php if(isset($_POST["cardCVC"])) echo $_POST["cardCVC"]; ?>"/><br>
+				
+				<?php
+					$sql1 = "SELECT courierID FROM user_delivery_details WHERE user_delivery_details.trackingNumber = '$trackingNumber'";
+					$result1 = mysqli_query($combine, $sql1);
+					$result1 = mysqli_query($combine, $sql1);
+					while($row1 = mysqli_fetch_array($result1))
+					{
+				?>
+						<input name="courierID" id="courierID" type="hidden" value="<?php echo $row1['courierID']?>">
+				<?php
+					}
+				?>
+				
+				<?php
+					$sql = "SELECT parcelWeight from user_delivery_details WHERE userID = '$userID'";
+					$result=mysqli_query($combine,$sql);
+					while($row = mysqli_fetch_array($result))
+					{
+						$charge = 4;
+						$tp = 5;
+						
+						if($row['parcelWeight'] <= 1)
+						{
+							$totalPrice = $tp;
+						}
+						else
+						{
+							$temp = $row['parcelWeight'] - 1;
+							$extraCharge = $temp * $charge;
+							$totalPrice = $extraCharge + $tp;
+						}
+					}
 			
+				?>
+				
+				<label for = "totalPrice">Total Price(RM)</label>
+				<input name="totalPrice" id="totalPrice" type="text" value="<?php echo $totalPrice?>" readonly >
+				
 				<input type = "hidden" name = "submitted" value = "true"/>
 				<input type = "submit" style = "float:right" value = "SUBMIT" name = "submit"/> 
 				
