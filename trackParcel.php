@@ -201,6 +201,35 @@
 			<div class = "container1">
 			
 				<?php
+					if ($parcelStatus == 'Parcel Collected') 
+					{
+						$result1 = mysqli_query($combine, "SELECT autocomplete FROM user_delivery_details WHERE user_delivery_details.trackingNumber='$trackingNumber'");
+						while($row1=mysqli_fetch_array($result1))
+						{
+				?>
+							<iframe width="100%" height="500" frameborder="0" style="border:0" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCwr5WOvRpeGepLWE2r8Iw5PisWLqFfY9M&q=<?php  echo $row1['autocomplete'];?>" allowfullscreen>
+				<?php
+						}
+					}
+				?>
+				
+				<?php
+					if($parcelStatus == 'Enroute to Hub')
+					{
+						$sql1 = "SELECT courier.autocomplete as cAddress, user_delivery_details.autocomplete as uAddress FROM user_delivery_details 
+								 LEFT JOIN courier ON courier.courierID = user_delivery_details.courierID
+								 WHERE user_delivery_details.trackingNumber='$trackingNumber'";
+						$result1 = mysqli_query($combine, $sql1);
+						while($row1=mysqli_fetch_array($result1))
+						{
+				?>
+							<iframe width="100%" height="500" frameborder="0" style="border:0" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyCwr5WOvRpeGepLWE2r8Iw5PisWLqFfY9M&&origin=<?php echo $row1['uAddress']; ?>&destination=<?php echo $row1['cAddress']; ?>" allowfullscreen></iframe>
+				<?php
+						}
+					}
+				?>
+			
+				<?php
 					if ($parcelStatus == 'Arrived at Hub') 
 					{
 						$result1 = mysqli_query($combine, "SELECT courier.courierID as cID, courier.autocomplete as cAddress FROM courier INNER JOIN user_delivery_details ON courier.courierID=user_delivery_details.courierID WHERE user_delivery_details.trackingNumber='$trackingNumber'");
@@ -208,6 +237,48 @@
 						{
 				?>
 							<iframe width="100%" height="500" frameborder="0" style="border:0" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCwr5WOvRpeGepLWE2r8Iw5PisWLqFfY9M&q=<?php echo $row1['cAddress']; ?>" allowfullscreen>
+				<?php
+						}
+					}
+				?>
+				
+				<?php
+					if($parcelStatus == 'Out for Delivery')
+					{
+						$sql1 = "SELECT courier.autocomplete as cAddress, user_delivery_details.receiverAddress as rAddress FROM user_delivery_details 
+								 LEFT JOIN courier ON courier.courierID = user_delivery_details.courierID
+								 WHERE user_delivery_details.trackingNumber='$trackingNumber'";
+						$result1 = mysqli_query($combine, $sql1);
+						while($row1=mysqli_fetch_array($result1))
+						{
+				?>
+							<iframe width="100%" height="500" frameborder="0" style="border:0" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyCwr5WOvRpeGepLWE2r8Iw5PisWLqFfY9M&&origin=<?php echo $row1['cAddress']; ?>&destination=<?php echo $row1['rAddress']; ?>" allowfullscreen></iframe>
+				<?php
+						}
+					}
+				?>
+				
+				<?php
+					if ($parcelStatus == 'Delivered') 
+					{
+						$result1 = mysqli_query($combine, "SELECT receiverAddress FROM user_delivery_details WHERE user_delivery_details.trackingNumber='$trackingNumber'");
+						while($row1=mysqli_fetch_array($result1))
+						{
+				?>
+							<iframe width="100%" height="500" frameborder="0" style="border:0" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCwr5WOvRpeGepLWE2r8Iw5PisWLqFfY9M&q=<?php  echo $row1['receiverAddress'];?>" allowfullscreen>
+				<?php
+						}
+					}
+				?>
+				
+				<?php
+					if ($parcelStatus == 'Returned to Hub') 
+					{
+						$result1 = mysqli_query($combine, "SELECT courier.courierID as cID, courier.autocomplete as cAddress FROM courier INNER JOIN user_delivery_details ON courier.courierID=user_delivery_details.courierID WHERE user_delivery_details.deliveryID='$ID'");
+						while($row1=mysqli_fetch_array($result1))
+						{
+				?>
+							<iframe width="96%" height="500" frameborder="0" style="border:0" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCwr5WOvRpeGepLWE2r8Iw5PisWLqFfY9M&q=<?php echo $row1['cAddress']; ?>" allowfullscreen>
 				<?php
 						}
 					}
