@@ -10,7 +10,6 @@
 			{
 				margin:0;
 				padding:0;
-				box-sizing:border-box;
 			}
 			
 			body
@@ -20,11 +19,23 @@
 		
 			.container
 			{
-				height:300px;
+				height:295px;
 				width:1050px;
 				margin:auto;
-				margin-top:25px;
+				margin-top:45px;
 				margin-bottom:5px;
+				margin-left:340px;
+				border-style: solid;
+				border-color: #E9ECEF;
+			}
+			
+			.container1
+			{
+				height:500px;
+				width:1050px;
+				margin:auto;
+				margin-top:45px;
+				margin-bottom:50px;
 				margin-left:340px;
 				border-style: solid;
 				border-color: #E9ECEF;
@@ -91,12 +102,21 @@
 	</head>
 	
 	<?php
+		include("courier_management_system.php");
+		session_start();
+		
+		$userID = $_SESSION['userID'];
+	
+		if($userID == '')
+		{
+			header('location:login.php');
+		}
+		
 		include('user_sidebar.php');
-	?>
+		include('user_header.php');
+?>
 	
 	<body>
-	
-		<h1>Tracking Parcel</h1>
 	
 		<div class = "container">
 			
@@ -114,13 +134,10 @@
 		</div>
 		
 		<?php
-			include("courier_management_system.php");
-			session_start();
-		
 			if(isset($_POST['submitted']))
 			{
 				$trackingNumber = $_POST['trackingNumber'];
-				$sql="SELECT user_delivery_details.deliveryID as deliveryID FROM user_delivery_details WHERE user_delivery_details.trackingNumber = '$trackingNumber'";
+				$sql="SELECT user_delivery_details.deliveryID as deliveryID, user_delivery_details.parcelStatus as parcelStatus FROM user_delivery_details WHERE user_delivery_details.trackingNumber = '$trackingNumber'";
 				$result=mysqli_query($combine,$sql);
 				$count = mysqli_num_rows($result);
 				
@@ -133,7 +150,8 @@
 						
 						<?php
 							$deliveryID = $row['deliveryID'];
-							$sql="SELECT * FROM parceltracking WHERE deliveryID = '$deliveryID'";
+							$parcelStatus = $row['parcelStatus'];
+							$sql="SELECT * FROM parceltracking WHERE deliveryID = '$deliveryID' ORDER BY statusDate DESC";
 							$result=mysqli_query($combine,$sql);
 							$row = mysqli_num_rows($result);
 							
@@ -144,6 +162,7 @@
 									<tr>
 										<th>Date / Time </th>
 										<th>Status </th>
+										<th>Remark</th>
 									</tr>
 									<?php 
 										while ($row=mysqli_fetch_array($result)) 
@@ -153,12 +172,14 @@
 												<td>
 													<?php echo $row['parcelStatus']?>
 												</td>
+												<td><?php echo $row['remark']?></td>
 												
 											</tr>
 									<?php
 										}
 									?>
-								<table>
+								</table>
+								
 						<?php		
 							}
 							else
@@ -176,6 +197,25 @@
 					echo"<script>alert('Invalid tracking number!')</script>";
 				}
 			?>
+			
+			<div class = "container1">
+			
+				<?php
+					if ($parcelStatus == 'Arrived at Hub') 
+					{
+						$result1 = mysqli_query($combine, "SELECT courier.courierID as cID, courier.autocomplete as cAddress FROM courier INNER JOIN user_delivery_details ON courier.courierID=user_delivery_details.courierID WHERE user_delivery_details.trackingNumber='$trackingNumber'");
+						while($row1=mysqli_fetch_array($result1))
+						{
+				?>
+							<iframe width="100%" height="500" frameborder="0" style="border:0" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCwr5WOvRpeGepLWE2r8Iw5PisWLqFfY9M&q=<?php echo $row1['cAddress']; ?>" allowfullscreen>
+				<?php
+						}
+					}
+				?>
+			
+			</div>
+			
+			<br><br>
 		<?php		
 			}
 		?>
