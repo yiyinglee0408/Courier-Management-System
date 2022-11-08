@@ -71,6 +71,7 @@
 			$email=$_POST['email'];
 			$NewPassword=$_POST['NewPassword'];
 			$CNewPassword=$_POST['CNewPassword'];
+			$hashPassword = password_hash($NewPassword, PASSWORD_DEFAULT);
 			
 			if(empty($email) || empty($NewPassword) || empty($CNewPassword))
 			{
@@ -91,7 +92,7 @@
 				$row=mysqli_fetch_array($result, MYSQLI_ASSOC);
 				if(mysqli_num_rows($result)== 1)
 				{
-					mysqli_query($combine, "UPDATE user set password='" . $_POST["NewPassword"] . "' WHERE email='" . $_POST["email"] . "'");
+					mysqli_query($combine, "UPDATE user set password='" . $hashPassword . "' WHERE email='" . $_POST["email"] . "'");
 					echo"<script>alert('Password change successfully.');
 					window.location='login.php'</script>";
 				}
