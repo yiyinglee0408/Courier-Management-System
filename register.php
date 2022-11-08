@@ -125,7 +125,8 @@
 			$fullName = mysqli_real_escape_string($combine, $fullName);
 			$email = mysqli_real_escape_string($combine, $email);
 			$password = mysqli_real_escape_string($combine, $password);
-			$password = $password;
+			$hashPassword = password_hash($password, PASSWORD_DEFAULT);
+			//$hashPassword = md5($password);
 			
 			//Register Form Validation
 			if(empty($fullName) || empty($email) || empty($contactNumber) || empty($autocomplete) || empty($locality) || empty($administrative_area_level_1) || empty($postal_code) || empty($country) || empty($password) || empty($confirmPassword))
@@ -162,7 +163,7 @@
 					//success store data and display message
 					$query = mysqli_query($combine, "INSERT INTO user
 					(fullName, email, contactNumber, password, autocomplete, apartmentUnit, locality, administrative_area_level_1, postal_code, country) VALUES
-					('$fullName', '$email', '$contactNumber', '$password', '$autocomplete', '$apartmentUnit', '$locality', '$administrative_area_level_1', '$postal_code', '$country')");
+					('$fullName', '$email', '$contactNumber', '$hashPassword', '$autocomplete', '$apartmentUnit', '$locality', '$administrative_area_level_1', '$postal_code', '$country')");
 					if ($query)
 					{
 						$_SESSION['fullName'] = $fullName;
@@ -301,5 +302,5 @@
 		  }
 		}
 	</script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmGUA_BLfucAv8MUM5xfpyg_N0bPhH6jw&libraries=places&&callback=initAutocomplete" async defer></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwr5WOvRpeGepLWE2r8Iw5PisWLqFfY9M&libraries=places&&callback=initAutocomplete" async defer></script>
 </html>
