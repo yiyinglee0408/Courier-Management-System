@@ -104,10 +104,8 @@
 		session_start();
 		if(isset($_POST['submit']))
 		{
-			$fullName = mysqli_real_escape_string($combine, $_POST['fullName']);
 			$email = mysqli_real_escape_string($combine, $_POST['email']);
 			$password = mysqli_real_escape_string($combine, $_POST['password']);
-			$fullName = stripslashes($_POST['fullName']);
 			$email = stripslashes($_POST['email']);
 			$password = stripslashes($_POST['password']);
 			$valid = true;
@@ -119,18 +117,24 @@
 			else if($valid)
 			{
 				//validation if the email had been record in database
-				$sql="SELECT * FROM user WHERE email='$email' AND password='$password' ";
+				$sql="SELECT * FROM user WHERE email='$email'";
 				$result=mysqli_query($combine,$sql);
 				$row=mysqli_fetch_array($result);
 				$userID = $row['userID'];
 				if(mysqli_num_rows($result)== 1)
 				{
-					$_SESSION['fullName'] = $fullName;
-					$_SESSION['email'] = $email;
-					$_SESSION['userID'] = $userID;
-					echo "<script>alert('You are now logged in.');
-						window.location='user_delivery_details.php'</script>";
-						return true;
+					if(password_verify($password,$row['password']))
+					{
+						$_SESSION['email'] = $email;
+						$_SESSION['userID'] = $userID;
+						echo "<script>alert('You are now logged in.');
+							window.location='trackParcel.php'</script>";
+							return true;
+					}
+					else
+					{
+						echo "<script>alert('Wrong Password.')</script>";
+					}
 				
 				}else {
 					echo "<script>alert('Wrong email/password combination.');
