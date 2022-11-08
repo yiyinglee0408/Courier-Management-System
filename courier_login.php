@@ -15,7 +15,7 @@
 			
 			body
 			{
-				background:url("image/registerBackground.jpeg");
+				background:url("image/adminBackground.jpeg");
 			}
 			
 			a
@@ -104,10 +104,8 @@
 		session_start();
 		if(isset($_POST['submit']))
 		{
-			$courierName = mysqli_real_escape_string($combine, $_POST['courierName']);
 			$courierEmail = mysqli_real_escape_string($combine, $_POST['courierEmail']);
 			$courierPassword = mysqli_real_escape_string($combine, $_POST['courierPassword']);
-			$courierName = stripslashes($_POST['courierName']);
 			$courierEmail = stripslashes($_POST['courierEmail']);
 			$courierPassword = stripslashes($_POST['courierPassword']);
 			$valid = true;
@@ -119,18 +117,24 @@
 			else if($valid)
 			{
 				//validation if the email had been record in database
-				$sql="SELECT * FROM courier WHERE courierEmail='$courierEmail' AND courierPassword='$courierPassword'";
+				$sql="SELECT * FROM courier WHERE courierEmail='$courierEmail'";
 				$result=mysqli_query($combine,$sql);
 				$row=mysqli_fetch_array($result);
 				$courierID = $row['courierID'];
 				if(mysqli_num_rows($result)== 1)
 				{
-					$_SESSION['courierName'] = $courierName;
-					$_SESSION['courierEmail'] = $courierEmail;
-					$_SESSION['courierID'] = $courierID;
-					echo "<script>alert('You are now logged in.');
-						window.location='user_delivery_details.php'</script>";
-						return true;
+					if(password_verify($courierPassword,$row['courierPassword']))
+					{
+						$_SESSION['courierEmail'] = $courierEmail;
+						$_SESSION['courierID'] = $courierID;
+						echo "<script>alert('You are now logged in.');
+							window.location='parcelList.php'</script>";
+							return true;
+					}
+					else
+					{
+						echo "<script>alert('Wrong Password.')</script>";
+					}
 				
 				}else {
 					echo "<script>alert('Wrong email/password combination.');
@@ -148,7 +152,7 @@
 		
 			<form method = "POST" action ="courier_login.php" class = "form">
 			
-				<h1 style="text-transform:uppercase; text-align:center">Login</h1>
+				<h1 style="text-transform:uppercase; text-align:center">Courier Login</h1>
 				
 				<p class = "account"><small>Don't have an account? <a href = "courierRegister.php" style="color:#2874A6"><strong>Register</strong></a></small></p>
 				
