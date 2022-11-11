@@ -19,11 +19,11 @@
 			
 			.container
 			{
-				height:800px;
+				height:542px;
 				width: 1050px;
 				margin:auto;
 				margin-top:25px;
-				margin-bottom:5px;
+				margin-bottom:50px;
 				margin-left:340px;
 				border-style: solid;
 				border-color: #E9ECEF;
@@ -80,13 +80,7 @@
 		//took record base on the userID
 		$userID = $_SESSION['userID'];
 		
-		$trackingNumber=$_GET['trackingNo'];
-		
-		$courierID;
-
-		$sql = "SELECT * FROM user_delivery_details";
-		$result = mysqli_query($combine,$sql);
-		$count = mysqli_num_rows($result);
+		$ID=$_GET['updateID'];
 		
 		if($userID == '')
 		{
@@ -98,23 +92,19 @@
 		
 		if(isset($_POST['submitted']))
 		{
+			$ID=$_GET['updateID'];
 			$fullName =  $_POST['fullName'];
 			$email =  $_POST['email'];
 			$contactNumber =  $_POST['contactNumber'];
-			$cardNumber =  $_POST['cardNumber'];
-			$validDate =  $_POST['validDate'];
-			$cardCVC =  $_POST['cardCVC'];
 			$totalPrice = $_POST['totalPrice'];
 			$courierID = $_POST['courierID'];
+			$paymentMethod = "Debit Card";
 			
 			$fullName = mysqli_real_escape_string($combine, $fullName);
 			$email = mysqli_real_escape_string($combine, $email);
 			$contactNumber = mysqli_real_escape_string($combine, $contactNumber);
-			$cardNumber = mysqli_real_escape_string($combine, $cardNumber);
-			$validDate = mysqli_real_escape_string($combine, $validDate);
-			$cardCVC = mysqli_real_escape_string($combine, $cardCVC);
 			
-			if(empty($fullName) || empty($email) || empty($contactNumber) || empty($cardNumber) || empty($validDate) || empty($cardCVC))
+			if(empty($fullName) || empty($email) || empty($contactNumber))
 			{
 				echo"<script>alert('Please do not let the field empty !')</script>";
 			}
@@ -125,8 +115,8 @@
 			else
 			{
 				$query = mysqli_query($combine, "INSERT INTO payment
-				(userID, courierID, fullName, email, contactNumber, cardNumber, cardCVC, validDate, totalPrice) VALUES
-				('$userID', '$courierID', '$fullName', '$email', '$contactNumber', '$cardNumber', '$cardCVC', '$validDate', '$totalPrice')");
+				(userID, courierID, fullName, email, contactNumber, totalPrice, paymentMethod) VALUES
+				('$userID', '$courierID', '$fullName', '$email', '$contactNumber', '$totalPrice', '$paymentMethod')");
 				if ($query)
 				{
 					//$_SESSION['success'] = "You are now logged in";
@@ -148,7 +138,7 @@
 		
 			<form method = "POST" action = "payment.php" class = "form">
 			
-				<h3 style = "color:#21618C">Payment</h3><br/>
+				<h3 style = "color:#21618C">Debit Card Payment</h3><br/>
 				
 				<label for = "fullName">Cardholder's Name</label>
 				<input type = "text" id = "fullName" name = "fullName" placeholder = "Cardholder's Name" value= "<?php if(isset($_POST["fullName"])) echo $_POST["fullName"]; ?>"/><br/>
@@ -159,18 +149,8 @@
 				<label for = "contactNumber">Contact Number</label>
 				<input type = "tel" id = "contactNumber" name = "contactNumber" placeholder = "E.g.012-4536636" pattern = "[0-9]{3}-[0-9]{7,8}" value= "<?php if(isset($_POST["contactNumber"])) echo $_POST["contactNumber"]; ?>"/>
 				
-				<label for = "cardNumber">Card Number</label>
-				<input type = "password" id = "cardNumber" name = "cardNumber" placeholder = "E.g.1111-2222-3333-4444" value= "<?php if(isset($_POST["cardNumber"])) echo $_POST["cardNumber"]; ?>"/>
-				
-				<label for = "validDate">Valid thru</label>
-				<input type = "month" id = "validDate" name = "validDate" min = "2022-10" placeholder = "E.g.October 2022" pattern = "[a-zA-Z0-9]+@(gmail|yahoo|outlook)\.com" value= "<?php if(isset($_POST["validDate"])) echo $_POST["validDate"]; ?>"/><br>
-				
-				<label for = "cardCVC">CVV / CVC</label>
-				<input type = "password" id = "cardCVC" name = "cardCVC" placeholder = "E.g.123" value= "<?php if(isset($_POST["cardCVC"])) echo $_POST["cardCVC"]; ?>"/><br>
-				
 				<?php
-					$sql1 = "SELECT courierID FROM user_delivery_details WHERE user_delivery_details.trackingNumber = '$trackingNumber'";
-					$result1 = mysqli_query($combine, $sql1);
+					$sql1 = "SELECT courierID FROM user_delivery_details WHERE user_delivery_details.deliveryID = '$ID'";
 					$result1 = mysqli_query($combine, $sql1);
 					while($row1 = mysqli_fetch_array($result1))
 					{
@@ -181,29 +161,33 @@
 				?>
 				
 				<?php
-					$sql = "SELECT parcelWeight from user_delivery_details WHERE userID = '$userID'";
+					$sql = "SELECT parcelWeight, courierID from user_delivery_details WHERE deliveryID = '$ID'";
 					$result=mysqli_query($combine,$sql);
 					while($row = mysqli_fetch_array($result))
 					{
-						$charge = 4;
-						$tp = 5;
+						$target = $row['courierID'];
+						$weight = $row['parcelWeight'];
+						$sql2 = "SELECT minWeight, maxWeight, price FROM shippingrate WHERE courierID='$target'";
+						$result2 = mysqli_query($combine,$sql2);
+						  
+						  while($row2 = mysqli_fetch_array($result2))
+						 {
+							$minWeight = $row2['minWeight'];
+							$maxWeight = $row2['maxWeight'];
 						
-						if($row['parcelWeight'] <= 1)
-						{
-							$totalPrice = $tp;
-						}
-						else
-						{
-							$temp = $row['parcelWeight'] - 1;
-							$extraCharge = $temp * $charge;
-							$totalPrice = $extraCharge + $tp;
+							if($weight >= $minWeight && $weight <= $maxWeight)
+							{
+								$totalPrice = $row2['price'];
+							}
+							
+							//$totalPrice = $row2['price'];
+						
 						}
 					}
-			
 				?>
 				
 				<label for = "totalPrice">Total Price(RM)</label>
-				<input name="totalPrice" id="totalPrice" type="text" value="<?php echo $totalPrice?>" readonly >
+				<input name="totalPrice" id="totalPrice" type="text" value="<?php print $totalPrice?>" readonly >
 				
 				<input type = "hidden" name = "submitted" value = "true"/>
 				<input type = "submit" style = "float:right" value = "SUBMIT" name = "submit"/> 

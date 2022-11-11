@@ -102,7 +102,6 @@
 			if ($query) 
 			{
 				//$msg="Remark and Status has been updated.";
-				echo "UPDATE payment SET fullName = NULL WHERE paymentMethod='Cash On Delivery'";
 				 echo '<script>alert("You have payment successfully.")</script>';
 				 $sql="SELECT * FROM user_delivery_details WHERE deliveryID = '$ID'";
 				 $result=mysqli_query($combine,$sql);
@@ -122,29 +121,34 @@
 		<div class = "container">
 			<form method = "POST" action = "cashPayment.php" class = "form">
 				<h2 style = "color:#21618C;">Cash Payment Method</h2><br/>
+				
 				<?php
-					$ID=$_GET['cashID'];
-					$sql = "SELECT parcelWeight from user_delivery_details WHERE deliveryID = '$ID'";
+					$sql = "SELECT parcelWeight, courierID from user_delivery_details WHERE deliveryID = '$ID'";
 					$result=mysqli_query($combine,$sql);
 					while($row = mysqli_fetch_array($result))
 					{
-						$charge = 4;
-						$tp = 5;
+						$target = $row['courierID'];
+						$weight = $row['parcelWeight'];
+						$sql2 = "SELECT minWeight, maxWeight, price FROM shippingrate WHERE courierID='$target'";
+						$result2 = mysqli_query($combine,$sql2);
+						  
+						  while($row2 = mysqli_fetch_array($result2))
+						 {
+							$minWeight = $row2['minWeight'];
+							$maxWeight = $row2['maxWeight'];
 						
-						if($row['parcelWeight'] <= 1)
-						{
-							$totalPrice = $tp;
-						}
-						else
-						{
-							$temp = $row['parcelWeight'] - 1;
-							$extraCharge = $temp * $charge;
-							$totalPrice = $extraCharge + $tp;
+							if($weight >= $minWeight && $weight <= $maxWeight)
+							{
+								$totalPrice = $row2['price'];
+							}
+							
+							//$totalPrice = $row2['price'];
+						
 						}
 					}
-			
 				?>
-				<h3>Total Price(RM)</h3>
+				
+				<label for = "totalPrice">Total Price(RM)</label>
 				<input name="totalPrice" id="totalPrice" type="text" value="<?php echo $totalPrice?>" readonly ><br>
 				
 				<?php
