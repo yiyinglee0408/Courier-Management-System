@@ -54,7 +54,9 @@
 			<ul class = "right-nav">
 				<li><a href = "homepage.php">Home</a></li>
 				<li><a href = "courierList.php">Courier Company</a></li>
-				<li><a href = "trackingParcel.php">Tracking Parcel</a></li>
+				<li><a href = "trackParcel_homepage.php">Tracking Parcel</a></li>
+				<li><a href = "customerService.php">Customer Service</a></li>
+				<li><a href = "feedback.php">Feedback</a></li>
 				<li><a href = "login.php">Login</a></li>
 				<li><a href = "register.php">Register</a></li>
 			
