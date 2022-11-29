@@ -1,0 +1,191 @@
+/*Feedback CSS*/
+*
+{
+	margin : 0;
+	padding : 0;
+	box-sizing : border-box;
+}
+
+/*put the h1 in center , ajust the letter spacing , font size , and put the color*/
+h1
+{
+	letter-spacing : 3px;
+	text-align : center;
+	font-size  : 65px;
+	color      : #21618C;
+	margin-top : 40px;
+}
+
+/*ajust the container width , padding , margin and other*/
+.container
+{
+	position : relative;
+	width : 1200px;
+	background-color : white;
+	padding : 20px 30px;
+	margin: 2% auto 0;
+	margin-bottom: 50px;
+	border-radius : 15px;
+	display : flex;
+	align-items : center;
+	justify-content : center;
+	flex-direction : column;
+	border:1px solid #E9ECEF;
+	box-shadow: 18px 18px 8px #D6DBDF;
+}
+
+.container .post
+{
+	display : none;
+}
+
+.container .text
+{
+	font-size : 50px;
+	color : 21618C;
+	font-weight : 500;
+}
+
+.container .edit
+{
+	position : absolute;/*ajust the edit position*/
+	right : 10px;
+	top : 5px;
+	font-size : 16px; /*ajust the font size*/
+	color : #2471A3; /*put the font color for edit */
+	font-weight : 500;
+	cursor : pointer;
+}
+
+.container .edit:hover
+{
+	text-decoration : underline;
+}
+
+.container .star input[type=radio]
+{
+	display : none;
+}
+
+.star label
+{
+	font-size : 85px; /*ajust the star size */
+	color : #444444;
+	padding : 65px;
+	float : right;
+	transition : all 0.2s ease;
+}
+
+input:not(:checked)~label:hover , 
+input:not(:checked)~label:hover ~label
+{
+	color : #FFDD44;
+}
+
+input:checked~label
+{
+	color : #FFDD44;
+}
+
+/*When the user press 5 star , the star of color will be difference and have the text shadow*/
+input#feedback-5:checked~label
+{
+	color : #FFEE77;
+	text-shadow : 0 0 20px #995522;
+}
+
+/*Display the content for each of the star*/
+#feedback-1:checked ~ form .content:before
+{
+	content : "I just hate it😣";
+}
+
+#feedback-2:checked ~ form .content:before
+{
+	content : "I don't like it😥";
+}
+
+#feedback-3:checked ~ form .content:before
+{
+	content : "It is awesome😃";
+}
+
+#feedback-4:checked ~ form .content:before
+{
+	content : "I just like it😎";
+}
+
+#feedback-5:checked ~ form .content:before
+{
+	content : "I just love it😍";
+}
+
+
+/*For the content width , font size , font color , margin and other*/
+form .content
+{
+	width : 100%;
+	font-size: 45px;
+	color : #21618C;
+	font-weight : 500;
+	margin : 5px 0 20px 0;
+	text-align : center;
+	transition : all 0.2s ease;
+}
+
+form input[type=text], input[type=email], input[type=tel],select
+{
+	width:100%;
+	border:none;
+	border-bottom:2px solid black;
+	padding:12px 20px;
+	margin: 8px 0;
+	box-sizing:border-box;
+	align-items:center;
+}
+
+/*Ajust for the textarea column height , width and overflow*/
+form .textarea
+{
+	height : 100px;
+	width : 100%;
+	overflow : hidden;
+}
+
+/*Ajust for the textarea  height , width outline , font color and other*/
+form .textarea textarea
+{
+	height : 100%;
+	width : 100%;
+	padding : 10px;
+	font-size : 17px;
+}
+
+form .btn
+{
+	height : 55px;
+	width : 100%;
+	margin : 15px 0;
+}
+
+/*Ajust for the post button height , width , border , outline and other*/
+form .btn input[type=submit]
+{
+	display:inline-block;
+	text-transform:uppercase;
+	height : 100%;
+	width : 100%;
+	border:none;
+	background : #2874A6;
+	color : #FFFFFF;
+	border-radius:8px;
+	font-size : 25px;
+	font-weight : 600;
+	cursor : pointer;
+	transition : all 0.3s ease;
+}
+
+form .btn input[type=submit]:hover
+{
+	background : #5499C7;
+}
